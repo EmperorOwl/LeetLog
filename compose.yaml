@@ -1,9 +1,36 @@
 services:
-  backend:
-    build: ./backend
+
+  # Development Services
+  backend-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     ports:
       - "8080:8080"
-    env_file:
-        - ./backend/.env
     volumes:
-      - ./backend/src:/backend/src
+      - ./backend/src:/app/src
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # Don't copy the node_modules
+
+  # Production Services
+  backend-prod:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:8080"
+
+  frontend-prod:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:80"
