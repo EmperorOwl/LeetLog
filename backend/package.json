@@ -1,0 +1,28 @@
+{
+  "name": "leetlog-backend",
+  "version": "1.0.0",
+  "description": "Backend for LeetLog",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon --legacy-watch src/server.ts"
+  },
+  "author": "EmperorOwl",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.5",
+    "nodemon": "^3.1.9",
+    "prettier": "3.5.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
+  }
+}
