@@ -26,12 +26,12 @@ const loginUser = async (req: Request, res: Response) => {
       return;
     }
     // Generate token
-    const SECRET_KEY: string | undefined = process.env.SECRET_KEY;
-    if (!SECRET_KEY) {
+    const secretKey: string | undefined = process.env.SECRET_KEY;
+    if (!secretKey) {
       res.status(500).json({ error: "Login failed" });
       return;
     }
-    const token: string = jwt.sign({ userId: user._id }, SECRET_KEY, {
+    const token: string = jwt.sign({ userId: user._id }, secretKey, {
       expiresIn: "1h",
     });
     res.status(200).json({ token });
