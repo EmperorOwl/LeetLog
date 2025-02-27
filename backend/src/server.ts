@@ -1,22 +1,39 @@
-import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import morgan from "morgan";
+import mongoose from "mongoose";
+import app from "./app";
+import { adminExists, createAdmin } from "./auth";
 
 dotenv.config();
 
-const app: Express = express();
-const port: string = process.env.PORT || "8080";
+const main = async () => {
+  // Connect to database
+  const mongoURI: string | undefined = process.env.MONGO_URI;
+  const dbName: string | undefined = process.env.DB_NAME;
+  if (!mongoURI || !dbName) {
+    throw new Error("MONGO_URI or DB_NAME is not defined");
+  }
+  await mongoose.connect(mongoURI, { dbName: dbName });
+  console.log(`Connected to ${dbName} db`);
+  // Check admin user
+  const username: string | undefined = process.env.ADMIN_USERNAME;
+  const password: string | undefined = process.env.ADMIN_PASSWORD;
+  if (!username || !password) {
+    throw new Error("ADMIN_USERNAME or ADMIN_PASSWORD is not defined");
+  } //
+  if (await adminExists(username)) {
+    console.log(`Admin user with username ${username} found`);
+  } else {
+    await createAdmin(username, password);
+    console.log(`Admin user with username ${username} created`);
+  }
+  // Start server
+  const port: string | undefined = process.env.PORT;
+  if (!port) {
+    throw new Error("PORT is not defined");
+  }
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
+};
 
-// Middleware
-app.use(express.json());
-app.use(morgan("dev"));
-
-// Routes
-app.get("/", (_: Request, res: Response) => {
-  res.send("Hello World!");
-});
-
-// Server
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+main();

@@ -5,4 +5,3 @@ Dockerfile.prod
 .dockerignore
 .git
 .gitignore
-.env
