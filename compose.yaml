@@ -1,9 +1,26 @@
 services:
-  backend:
+  backend-dev:
     build: ./backend
     ports:
       - "8080:8080"
     env_file:
-        - ./backend/.env
+      - ./backend/.env
     volumes:
       - ./backend/src:/backend/src
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  frontend-prod:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:80"
