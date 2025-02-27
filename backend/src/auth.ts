@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -19,10 +19,11 @@ const createAdmin = async (username: string, password: string) => {
   await user.save();
 };
 
-const verifyToken = (req: Request, res: Response, next: () => void) => {
+const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const token: string | undefined = req.header("Authorization");
   if (!token) {
-    return res.status(401).json({ error: "Access denied" });
+    res.status(401).json({ error: "Access denied" });
+    return;
   }
   const secretKey: string | undefined = process.env.SECRET_KEY;
   if (!secretKey) {
@@ -32,7 +33,7 @@ const verifyToken = (req: Request, res: Response, next: () => void) => {
     const _ = jwt.verify(token, secretKey);
     next();
   } catch (error) {
-    res.status(401).json({ error: "Invalid token" });
+    res.status(401).json({ error: "Access denied" });
   }
 };
 
