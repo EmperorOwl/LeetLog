@@ -24,12 +24,12 @@ const verifyToken = (req: Request, res: Response, next: () => void) => {
   if (!token) {
     return res.status(401).json({ error: "Access denied" });
   }
+  const secretKey: string | undefined = process.env.SECRET_KEY;
+  if (!secretKey) {
+    throw new Error("SECRET_KEY is not defined");
+  }
   try {
-    const SECRET_KEY: string | undefined = process.env.SECRET_KEY;
-    if (!SECRET_KEY) {
-      return res.status(500).json({ error: "Access denied" });
-    }
-    const _ = jwt.verify(token, SECRET_KEY);
+    const _ = jwt.verify(token, secretKey);
     next();
   } catch (error) {
     res.status(401).json({ error: "Invalid token" });
