@@ -5,8 +5,8 @@ COPY *.json ./
 RUN npm install
 
 COPY src ./src
-RUN npm run build
-
 COPY .env ./
+COPY run.sh ./
+RUN chmod +x run.sh
 EXPOSE ${PORT}
-CMD ["node", "./dist/server.js"]
+CMD ["./run.sh"]
