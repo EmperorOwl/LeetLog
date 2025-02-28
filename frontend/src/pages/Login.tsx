@@ -23,6 +23,7 @@ const Login = () => {
       setError("Invalid username or password");
       return;
     }
+
     // Save the token in local storage
     const data = await response.json();
     localStorage.setItem("token", data.token);
