@@ -17,3 +17,8 @@ Docker doesn't install new dependencies
 ```sh
 docker compose down -v
 ```
+
+References
+
+- [Cors](https://expressjs.com/en/resources/middleware/cors.html)
+- [Vite ENV](https://vite.dev/guide/env-and-mode.html)
