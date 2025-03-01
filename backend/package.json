@@ -4,10 +4,10 @@
   "description": "Backend for LeetLog",
   "main": "dist/server.js",
   "scripts": {
+    "dev": "nodemon --legacy-watch src/server.ts",
     "test": "jest --detectOpenHandles --forceExit",
     "build": "npx tsc",
-    "start": "node dist/server.js",
-    "dev": "nodemon --legacy-watch src/server.ts"
+    "start": "node dist/server.js"
   },
   "author": "EmperorOwl",
   "license": "ISC",
