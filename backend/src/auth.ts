@@ -19,6 +19,20 @@ const createAdmin = async (username: string, password: string) => {
   await user.save();
 };
 
+const checkAdmin = async () => {
+  const username: string | undefined = process.env.ADMIN_USERNAME;
+  const password: string | undefined = process.env.ADMIN_PASSWORD;
+  if (!username || !password) {
+    throw new Error("ADMIN_USERNAME or ADMIN_PASSWORD is not defined");
+  } //
+  if (await adminExists(username)) {
+    console.log(`Admin user with username ${username} found`);
+  } else {
+    await createAdmin(username, password);
+    console.log(`Admin user with username ${username} created`);
+  }
+};
+
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const token: string | undefined = req.header("Authorization");
   if (!token) {
@@ -37,4 +51,4 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { adminExists, createAdmin, verifyToken };
+export { adminExists, createAdmin, checkAdmin, verifyToken };

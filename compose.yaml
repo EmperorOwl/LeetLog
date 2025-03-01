@@ -1,23 +1,29 @@
 services:
 
-  # Development Services
+  # Backend
   backend-dev:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      target: dev
     ports:
       - "8080:8080"
     volumes:
-      - ./backend/src:/app/src
-    environment:
-      - PORT=8080
-      - DB_NAME=dev
-      - ADMIN_USERNAME=admin
-      - ADMIN_PASSWORD=admin
-      - SECRET_KEY=secret
-      - FRONTEND_URL=http://localhost:3000
+      - ./backend/src:/app/src  # Sync the source code
     stop_grace_period: 1s
 
+  backend-prod:
+    build:
+      context: ./backend
+      target: prod
+    ports:
+      - "8080:8080"
+
+  backend-test:
+    build:
+      context: ./backend
+      target: test
+
+  # Frontend
   frontend-dev:
     build:
       context: ./frontend
@@ -29,14 +35,6 @@ services:
       - /app/node_modules  # Don't copy the node_modules
     environment:
       - VITE_BACKEND_URL=http://localhost:8080
-
-  # Production Services
-  backend-prod:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.prod
-    ports:
-      - "8080:8080"
 
   frontend-prod:
     build:
