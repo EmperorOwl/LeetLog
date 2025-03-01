@@ -15,9 +15,14 @@ const dropDatabase = async () => {
   console.log(`Dropped ${process.env.DB_NAME} db`);
 };
 
+const dropCollection = async (collectionName: string) => {
+  await mongoose.connection.dropCollection(collectionName);
+  console.log(`Dropped ${collectionName} collection`);
+};
+
 const disconnectDatabase = async () => {
   await mongoose.disconnect();
   console.log(`Disconnected from ${process.env.DB_NAME} db`);
 };
 
-export { connectDatabase, dropDatabase, disconnectDatabase };
+export { connectDatabase, dropDatabase, dropCollection, disconnectDatabase };

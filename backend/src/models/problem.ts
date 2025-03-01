@@ -12,9 +12,13 @@ interface IProblem {
 
 const problemSchema: Schema<IProblem> = new Schema<IProblem>(
   {
-    number: { type: Number },
-    title: { type: String },
-    difficulty: { type: String, enum: ["easy", "medium", "hard"] },
+    number: { type: Number, unique: true, required: true },
+    title: { type: String, unique: true, required: true },
+    difficulty: {
+      type: String,
+      enum: ["easy", "medium", "hard"],
+      required: true,
+    },
     lastAttempted: { type: Date },
     trick: { type: String },
     solution: { type: String },

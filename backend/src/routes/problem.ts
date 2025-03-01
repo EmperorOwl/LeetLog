@@ -13,7 +13,7 @@ const router: Router = express.Router();
 router.get("/", getProblems);
 router.post("/", createProblem);
 router.get("/:number", getProblem);
-router.put("/:id", updateProblem);
-router.delete("/:id", deleteProblem);
+router.put("/:number", updateProblem);
+router.delete("/:number", deleteProblem);
 
 export default router;

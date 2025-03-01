@@ -1,48 +1,25 @@
 import request from "supertest";
 
 import app from "../app";
-import { Problem } from "../models/problem";
+import { dropCollection } from "../db";
+import { validProblems, invalidProblems } from "./mock";
+
 import "./setup";
 
-const problems = [
-  {
-    number: 1,
-    title: "Two Sum",
-    difficulty: "easy",
-  },
-  {
-    number: 2,
-    title: "Add Two Numbers",
-    difficulty: "medium",
-  },
-  {
-    number: 3,
-    title: "Longest Substring Without Repeating Characters",
-    difficulty: "medium",
-  },
-  {
-    number: 4,
-    title: "Median of Two Sorted Arrays",
-    difficulty: "hard",
-  },
-];
-
-const test_create_problem = (problem: object, testDesc: string) => {
-  test(testDesc, async () => {
-    const response = await request(app)
-      .post("/api/problems")
-      .set("Authorization", app.locals.token)
-      .send(problem);
-    expect(response.status).toBe(201);
-    expect(response.body._id).toBeDefined();
-    expect(response.body.number).toBeDefined();
-    expect(response.body.title).toBeDefined();
-    expect(response.body.difficulty).toBeDefined();
+const setToken = async () => {
+  const response = await request(app).post("/api/user/login").send({
+    username: process.env.ADMIN_USERNAME,
+    password: process.env.ADMIN_PASSWORD,
   });
+  if (!response.ok) {
+    throw new Error("Failed to login");
+  }
+  app.locals.token = response.body.token;
+  console.log("Logged in and token set");
 };
 
-const test_get_problems = (count: number) => {
-  test(`Get all problems: ${count}`, async () => {
+const testGetAllProblems = (count: number) => {
+  test(`Get all problems (${count})`, async () => {
     const response = await request(app)
       .get("/api/problems")
       .set("Authorization", app.locals.token);
@@ -51,53 +28,104 @@ const test_get_problems = (count: number) => {
   });
 };
 
-const test_update_problem = () => {
-  test(`Update problem`, async () => {
-    const doc = await Problem.findOne();
-    if (!doc) {
-      throw new Error("No problem found");
-    }
+const testCreateProblem = (
+  problem: object,
+  testDesc: string,
+  shouldSucceed: boolean,
+) => {
+  test(testDesc, async () => {
     const response = await request(app)
-      .put(`/api/problems/${doc._id}`)
+      .post("/api/problems")
       .set("Authorization", app.locals.token)
-      .send({ title: "Updated Title" });
-    expect(response.status).toBe(200);
-    expect(response.body.title).toBe("Updated Title");
+      .send(problem);
+    if (shouldSucceed) {
+      expect(response.status).toBe(201);
+      expect(response.body._id).toBeDefined();
+      expect(response.body.number).toBeDefined();
+      expect(response.body.title).toBeDefined();
+      expect(response.body.difficulty).toBeDefined();
+    } else {
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBeDefined();
+    }
   });
 };
 
-const test_delete_problem = () => {
-  test(`Delete problem`, async () => {
-    const doc = await Problem.findOne();
-    if (!doc) {
-      throw new Error("No problem found");
-    }
+const testGetProblem = (number: number, shouldSucceed: boolean) => {
+  test(`Get problem #${number}`, async () => {
     const response = await request(app)
-      .delete(`/api/problems/${doc._id}`)
+      .get(`/api/problems/${number}`)
       .set("Authorization", app.locals.token);
-    expect(response.status).toBe(204);
+    if (shouldSucceed) {
+      expect(response.status).toBe(200);
+      expect(response.body._id).toBeDefined();
+      expect(response.body.number).toBe(number);
+    } else {
+      expect(response.status).toBe(404);
+    }
+  });
+};
+
+const testUpdateProblem = (number: number, shouldSucceed: boolean) => {
+  test(`Update problem #${number}`, async () => {
+    const response = await request(app)
+      .put(`/api/problems/${number}`)
+      .set("Authorization", app.locals.token)
+      .send({ title: "Updated Title" });
+    if (shouldSucceed) {
+      expect(response.status).toBe(200);
+      expect(response.body.title).toBe("Updated Title");
+    } else {
+      expect(response.status).toBe(404);
+    }
+  });
+};
+
+const testDeleteProblem = (number: number, shouldSucceed: boolean) => {
+  test(`Delete problem #${number}`, async () => {
+    const response = await request(app)
+      .delete(`/api/problems/${number}`)
+      .set("Authorization", app.locals.token);
+    if (shouldSucceed) {
+      expect(response.status).toBe(204);
+    } else {
+      expect(response.status).toBe(404);
+    }
   });
 };
 
 describe("Happy Case", () => {
   beforeAll(async () => {
-    const response = await request(app).post("/api/user/login").send({
-      username: process.env.ADMIN_USERNAME,
-      password: process.env.ADMIN_PASSWORD,
-    });
-    app.locals.token = response.body.token;
+    await setToken();
+    await dropCollection("problems");
   });
 
-  problems.forEach((problem) => {
-    test_create_problem(
-      problem,
-      `Add problem: ${problem.number}. ${problem.title}`,
-    );
+  testGetAllProblems(0);
+
+  validProblems.forEach((problem) => {
+    testCreateProblem(problem, `Add problem #${problem.number}`, true);
   });
-  test_get_problems(problems.length);
+  testGetAllProblems(validProblems.length);
+  testGetProblem(1, true);
 
-  test_update_problem();
+  testUpdateProblem(1, true);
 
-  test_delete_problem();
-  test_get_problems(problems.length - 1);
+  testDeleteProblem(2, true);
+  testGetAllProblems(validProblems.length - 1);
+});
+
+describe("Error Case", () => {
+  beforeAll(async () => {
+    await setToken();
+    await dropCollection("problems");
+  });
+
+  invalidProblems.forEach((testCase) => {
+    testCreateProblem(testCase[1], `Add problem: ${testCase[0]}`, false);
+  });
+  testGetAllProblems(0);
+
+  testGetProblem(99, false);
+  testUpdateProblem(99, false);
+  testDeleteProblem(99, false);
 });

@@ -9,7 +9,6 @@ dotenv.config();
 const main = async () => {
   await connectDatabase();
   await checkAdmin();
-  // Start server
   const port: string | undefined = process.env.PORT;
   if (!port) {
     throw new Error("PORT is not defined");
