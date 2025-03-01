@@ -55,6 +55,7 @@ const updateProblem = async (req: Request, res: Response) => {
       { number: number },
       req.body,
       {
+        runValidators: true,
         returnDocument: "after",
       },
     );
@@ -64,8 +65,12 @@ const updateProblem = async (req: Request, res: Response) => {
       res.status(200).json(problem);
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).send();
+    if (error instanceof mongoose.Error.ValidationError) {
+      res.status(400).json({ error: `${error}` });
+    } else {
+      console.error(error);
+      res.status(500).send();
+    }
   }
 };
 

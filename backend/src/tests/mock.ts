@@ -1,10 +1,10 @@
-type mockProblem = {
+type MockProblem = {
   number?: number | string;
   title?: string;
   difficulty?: string;
 };
 
-const validProblems: mockProblem[] = [
+const validProblems: MockProblem[] = [
   {
     number: 1,
     title: "Two Sum",
@@ -27,7 +27,7 @@ const validProblems: mockProblem[] = [
   },
 ];
 
-const invalidProblems: [string, mockProblem][] = [
+const invalidProblems: [string, MockProblem][] = [
   ["empty", {}],
   ["missing number", { title: "Two Sum", difficulty: "easy" }],
   ["missing title", { number: 1, difficulty: "easy" }],
@@ -36,4 +36,4 @@ const invalidProblems: [string, mockProblem][] = [
   ["invalid difficulty", { number: 1, title: "Two Sum", difficulty: "simple" }],
 ];
 
-export { validProblems, invalidProblems };
+export { MockProblem, validProblems, invalidProblems };

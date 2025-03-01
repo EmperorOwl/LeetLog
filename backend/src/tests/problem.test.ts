@@ -2,7 +2,7 @@ import request from "supertest";
 
 import app from "../app";
 import { dropCollection } from "../db";
-import { validProblems, invalidProblems } from "./mock";
+import { MockProblem, validProblems, invalidProblems } from "./mock";
 
 import "./setup";
 
@@ -29,7 +29,7 @@ const testGetAllProblems = (count: number) => {
 };
 
 const testCreateProblem = (
-  problem: object,
+  problem: MockProblem,
   testDesc: string,
   shouldSucceed: boolean,
 ) => {
@@ -66,17 +66,24 @@ const testGetProblem = (number: number, shouldSucceed: boolean) => {
   });
 };
 
-const testUpdateProblem = (number: number, shouldSucceed: boolean) => {
+const testUpdateProblem = (
+  number: number,
+  updatedProblem: MockProblem,
+  expectedStatus: number,
+) => {
   test(`Update problem #${number}`, async () => {
     const response = await request(app)
       .put(`/api/problems/${number}`)
       .set("Authorization", app.locals.token)
-      .send({ title: "Updated Title" });
-    if (shouldSucceed) {
-      expect(response.status).toBe(200);
-      expect(response.body.title).toBe("Updated Title");
-    } else {
-      expect(response.status).toBe(404);
+      .send(updatedProblem);
+    expect(response.status).toBe(expectedStatus);
+    if (expectedStatus == 200) {
+      expect(response.body._id).toBeDefined();
+      expect(response.body.number).toBe(updatedProblem.number);
+      expect(response.body.title).toBe(updatedProblem.title);
+      expect(response.body.difficulty).toBe(updatedProblem.difficulty);
+    } else if (expectedStatus == 400) {
+      expect(response.body.error).toBeDefined();
     }
   });
 };
@@ -108,7 +115,9 @@ describe("Happy Case", () => {
   testGetAllProblems(validProblems.length);
   testGetProblem(1, true);
 
-  testUpdateProblem(1, true);
+  const updatedProblem = JSON.parse(JSON.stringify(validProblems[0])); // Deep copy
+  updatedProblem.title = "Updated Title";
+  testUpdateProblem(1, updatedProblem, 200);
 
   testDeleteProblem(2, true);
   testGetAllProblems(validProblems.length - 1);
@@ -126,6 +135,11 @@ describe("Error Case", () => {
   testGetAllProblems(0);
 
   testGetProblem(99, false);
-  testUpdateProblem(99, false);
+  testUpdateProblem(99, validProblems[0], 404);
   testDeleteProblem(99, false);
+
+  testCreateProblem(validProblems[0], "SETUP: Add problem #1", true);
+  const updatedProblem = JSON.parse(JSON.stringify(validProblems[0])); // Deep copy
+  updatedProblem.difficulty = "simple";
+  testUpdateProblem(1, updatedProblem, 400);
 });
