@@ -27,18 +27,16 @@ services:
   frontend-dev:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      target: dev
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app
-      - /app/node_modules  # Don't copy the node_modules
-    environment:
-      - VITE_BACKEND_URL=http://localhost:8080
+      - ./frontend:/app  # Sync the source code
+      - /app/node_modules  # Don't sync the node_modules
 
   frontend-prod:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.prod
+      target: prod
     ports:
       - "3000:80"
