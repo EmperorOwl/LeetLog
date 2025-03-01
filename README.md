@@ -3,13 +3,19 @@
 Dev
 
 ```sh
-docker compose up backend-dev frontend-dev --build
+docker compose up backend-dev frontend-dev --build --menu=false
 ```
 
 Prod
 
 ```sh
-docker compose up backend-prod frontend-prod --build
+docker compose up backend-prod frontend-prod --build --menu=false
+```
+
+Test
+
+```sh
+docker compose up backend-test --build --menu=false
 ```
 
 Docker doesn't install new dependencies
