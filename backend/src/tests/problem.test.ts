@@ -1,6 +1,7 @@
 import request from "supertest";
 
 import app from "../app";
+import { Problem } from "../models/problem";
 import "./setup";
 
 const problems = [
@@ -40,7 +41,45 @@ const test_create_problem = (problem: object, testDesc: string) => {
   });
 };
 
-describe("Add new problem", () => {
+const test_get_problems = (count: number) => {
+  test(`Get all problems: ${count}`, async () => {
+    const response = await request(app)
+      .get("/api/problems")
+      .set("Authorization", app.locals.token);
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(count);
+  });
+};
+
+const test_update_problem = () => {
+  test(`Update problem`, async () => {
+    const doc = await Problem.findOne();
+    if (!doc) {
+      throw new Error("No problem found");
+    }
+    const response = await request(app)
+      .put(`/api/problems/${doc._id}`)
+      .set("Authorization", app.locals.token)
+      .send({ title: "Updated Title" });
+    expect(response.status).toBe(200);
+    expect(response.body.title).toBe("Updated Title");
+  });
+};
+
+const test_delete_problem = () => {
+  test(`Delete problem`, async () => {
+    const doc = await Problem.findOne();
+    if (!doc) {
+      throw new Error("No problem found");
+    }
+    const response = await request(app)
+      .delete(`/api/problems/${doc._id}`)
+      .set("Authorization", app.locals.token);
+    expect(response.status).toBe(204);
+  });
+};
+
+describe("Happy Case", () => {
   beforeAll(async () => {
     const response = await request(app).post("/api/user/login").send({
       username: process.env.ADMIN_USERNAME,
@@ -50,6 +89,15 @@ describe("Add new problem", () => {
   });
 
   problems.forEach((problem) => {
-    test_create_problem(problem, `${problem.number}. ${problem.title}`);
+    test_create_problem(
+      problem,
+      `Add problem: ${problem.number}. ${problem.title}`,
+    );
   });
+  test_get_problems(problems.length);
+
+  test_update_problem();
+
+  test_delete_problem();
+  test_get_problems(problems.length - 1);
 });

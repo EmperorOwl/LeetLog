@@ -10,6 +10,7 @@ const getProblems = async (_: Request, res: Response) => {
     });
     res.status(200).json(problems);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to get problems" });
   }
 };
@@ -26,6 +27,7 @@ const getProblem = async (req: Request, res: Response) => {
     }
     res.status(200).json(problem);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to get problem" });
   }
 };
@@ -37,6 +39,7 @@ const createProblem = async (req: Request, res: Response) => {
     });
     res.status(201).json(problem);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to create problem" });
   }
 };
@@ -49,6 +52,7 @@ const updateProblem = async (req: Request, res: Response) => {
     });
     res.status(200).json(problem);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to update problem" });
   }
 };
@@ -59,6 +63,7 @@ const deleteProblem = async (req: Request, res: Response) => {
     await Problem.findByIdAndDelete(id);
     res.status(204).send();
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to delete problem" });
   }
 };
