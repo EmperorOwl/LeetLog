@@ -22,3 +22,5 @@ References
 
 - [Cors](https://expressjs.com/en/resources/middleware/cors.html)
 - [Vite ENV](https://vite.dev/guide/env-and-mode.html)
+- [One Dockerfile](https://dev.to/massivebrains/use-same-dockerfile-for-dev-production-1l7f)
+- [Mongoose TS](https://mongoosejs.com/docs/typescript.html)
