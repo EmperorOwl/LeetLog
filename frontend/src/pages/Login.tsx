@@ -52,6 +52,7 @@ const Login = () => {
         required
         value={username}
         onChange={(event) => setUsername(event.target.value)}
+        autoFocus
       />
       <TextField
         id="password"
