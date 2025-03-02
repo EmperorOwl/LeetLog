@@ -4,14 +4,17 @@ import { Button, Container, Stack, Typography } from "@mui/material";
 import Problem from "../types/Problem";
 import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
+import ProblemDelete from "../components/ProblemDelete.tsx";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const API_URL = `${BACKEND_URL}/api/problems`;
 
 const Home = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
   const [problems, setProblems] = useState<Problem[]>([]);
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
+  const [problemToDelete, setProblemToDelete] = useState<Problem | null>(null);
 
   const fetchProblems = async () => {
     const response = await fetch(API_URL);
@@ -27,12 +30,23 @@ const Home = () => {
 
   const handleEditRequest = (problem: Problem) => {
     setProblemToEdit(problem);
-    setShowModal(true);
+    setShowFormModal(true);
   };
 
-  const handleModalClose = () => {
+  const handleDeleteRequest = async (problem: Problem) => {
+    setProblemToDelete(problem);
+    setShowDeleteModal(true);
+  };
+
+  const handleFormModalClose = () => {
     setProblemToEdit(null);
-    setShowModal(false);
+    setShowFormModal(false);
+    fetchProblems();
+  };
+
+  const handleDeleteModalClose = () => {
+    setProblemToDelete(null);
+    setShowDeleteModal(false);
     fetchProblems();
   };
 
@@ -43,7 +57,7 @@ const Home = () => {
         <Button
           variant="contained"
           size="small"
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowFormModal(true)}
           sx={{ width: 0.1 }}
         >
           Add Problem
@@ -51,15 +65,20 @@ const Home = () => {
         <ProblemTable
           problems={problems}
           handleEditRequest={handleEditRequest}
-        />
-        <ProblemModal
-          problemToEdit={problemToEdit}
-          isOpen={showModal}
-          handleClose={handleModalClose}
+          handleDeleteRequest={handleDeleteRequest}
         />
       </Stack>
+      <ProblemModal
+        problemToEdit={problemToEdit}
+        isOpen={showFormModal}
+        handleClose={handleFormModalClose}
+      />
+      <ProblemDelete
+        problem={problemToDelete}
+        isOpen={showDeleteModal}
+        handleClose={handleDeleteModalClose}
+      />
     </Container>
   );
 };
-
 export default Home;

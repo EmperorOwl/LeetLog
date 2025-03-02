@@ -1,6 +1,7 @@
 import EditIcon from "@mui/icons-material/Edit";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ExploreIcon from "@mui/icons-material/Explore";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   IconButton,
   Table,
@@ -20,9 +21,14 @@ const LEETCODE_URL = "https://leetcode.com/problems/";
 interface ProblemTableProps {
   problems: Problem[];
   handleEditRequest: (problem: Problem) => void;
+  handleDeleteRequest: (problem: Problem) => void;
 }
 
-const ProblemTable = ({ problems, handleEditRequest }: ProblemTableProps) => {
+const ProblemTable = ({
+  problems,
+  handleEditRequest,
+  handleDeleteRequest,
+}: ProblemTableProps) => {
   return (
     <TableContainer>
       <Table size="small">
@@ -59,6 +65,9 @@ const ProblemTable = ({ problems, handleEditRequest }: ProblemTableProps) => {
                   target="_blank"
                 >
                   <ExploreIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDeleteRequest(problem)}>
+                  <DeleteIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
