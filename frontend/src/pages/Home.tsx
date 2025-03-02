@@ -39,15 +39,19 @@ const Home = () => {
   };
 
   const handleFormModalClose = () => {
-    setProblemToEdit(null);
     setShowFormModal(false);
-    fetchProblems();
+    setTimeout(() => {
+      setProblemToEdit(null);
+      fetchProblems();
+    }, 100); // Add some delay before re-fetching
   };
 
   const handleDeleteModalClose = () => {
-    setProblemToDelete(null);
     setShowDeleteModal(false);
-    fetchProblems();
+    setTimeout(() => {
+      setProblemToDelete(null);
+      fetchProblems();
+    }, 100); // Add some delay before re-fetching
   };
 
   return (
