@@ -1,19 +1,20 @@
 import { Chip } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 
-const renderDifficultyChip = (difficulty: string) => {
-  let bgcolor: string;
-  let color: string = "white";
+const title = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
+const renderDifficultyChip = (difficulty: string) => {
+  let color: string;
   if (difficulty === "easy") {
-    bgcolor = "success";
+    color = "green";
   } else if (difficulty === "medium") {
-    bgcolor = "warning";
-    color = "black";
+    color = "orange";
   } else {
-    bgcolor = "error";
+    color = "Red";
   }
-  return <Chip label={difficulty} sx={{ bgcolor: bgcolor, color: color }} />;
+  return <Chip size="small" label={title(difficulty)} sx={{ color: color }} />;
 };
 
 const renderTimeAgo = (date: string) => {
@@ -26,4 +27,4 @@ const renderTimeAgo = (date: string) => {
   return res;
 };
 
-export { renderDifficultyChip, renderTimeAgo };
+export { title, renderDifficultyChip, renderTimeAgo };
