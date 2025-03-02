@@ -53,8 +53,7 @@ const ProblemDelete = ({
       <DialogTitle>Are you sure?</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          This will permanently delete the following problem:{" "}
-          {`${problem?.number}. ${problem?.title}.`}
+          {`This will permanently delete ${problem?.number}. ${problem?.title}`}
         </DialogContentText>
         {error && <DialogContentText color="error">{error}</DialogContentText>}
       </DialogContent>
