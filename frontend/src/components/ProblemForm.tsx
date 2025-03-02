@@ -12,6 +12,7 @@ import {
 
 import Problem from "../types/Problem";
 import { useAuth } from "../contexts/Auth.tsx";
+import { renderDifficultyChip } from "../utils/helper.tsx";
 
 const INITIAL_MARKDOWN = `### Clarifying Questions
 - 
@@ -148,6 +149,7 @@ const ProblemForm = ({
             label="Difficulty"
             value={difficulty}
             onChange={(event) => setDifficulty(event.target.value)}
+            renderValue={(value) => renderDifficultyChip(value)}
             required
           >
             <MenuItem value="easy">Easy</MenuItem>
