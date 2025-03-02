@@ -12,16 +12,22 @@ import ProblemForm from "./ProblemForm";
 import Problem from "../types/Problem.ts";
 
 interface ProblemModalProps {
+  problemToEdit: Problem | null;
   isOpen: boolean;
   handleClose: () => void;
-  problem: Problem | null;
 }
 
-const ProblemModal = ({ isOpen, handleClose, problem }: ProblemModalProps) => {
+const ProblemModal = ({
+  problemToEdit,
+  isOpen,
+  handleClose,
+}: ProblemModalProps) => {
   return (
     <Dialog open={isOpen} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ m: 0, p: 2 }}>
-        {problem ? `${problem.number}. ${problem.title}` : "Add Problem"}
+      <DialogTitle>
+        {problemToEdit
+          ? `${problemToEdit.number}. ${problemToEdit.title}`
+          : "Add Problem"}
       </DialogTitle>
       <IconButton
         onClick={handleClose}
@@ -35,11 +41,14 @@ const ProblemModal = ({ isOpen, handleClose, problem }: ProblemModalProps) => {
         <CloseIcon />
       </IconButton>
       <DialogContent dividers>
-        <ProblemForm initialProblem={problem} />
+        <ProblemForm
+          initialProblem={problemToEdit}
+          handleModalClose={handleClose}
+        />
       </DialogContent>
       <DialogActions>
         <Button type="submit" form="problem-form">
-          {problem ? "Save" : "Add"}
+          {problemToEdit ? "Save" : "Add"}
         </Button>
         <Button onClick={handleClose}>Cancel</Button>
       </DialogActions>

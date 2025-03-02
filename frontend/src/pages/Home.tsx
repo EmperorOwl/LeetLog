@@ -1,22 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Stack, Typography } from "@mui/material";
 
 import Problem from "../types/Problem";
 import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const API_URL = `${BACKEND_URL}/api/problems`;
+
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedProblem, setSelectedProblem] = useState<Problem | null>(null);
+  const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
+  const [problems, setProblems] = useState<Problem[]>([]);
+
+  const fetchProblems = async () => {
+    const response = await fetch(API_URL);
+    const json = await response.json();
+    if (response.ok) {
+      setProblems(json);
+    }
+  };
+
+  useEffect(() => {
+    fetchProblems();
+  }, []);
 
   const handleEditRequest = (problem: Problem) => {
-    setSelectedProblem(problem);
+    setProblemToEdit(problem);
     setShowModal(true);
   };
 
   const handleModalClose = () => {
-    setSelectedProblem(null);
+    setProblemToEdit(null);
     setShowModal(false);
+    fetchProblems();
   };
 
   return (
@@ -31,10 +48,13 @@ const Home = () => {
         >
           Add Problem
         </Button>
-        <ProblemTable handleEditRequest={handleEditRequest} />
+        <ProblemTable
+          problems={problems}
+          handleEditRequest={handleEditRequest}
+        />
         <ProblemModal
+          problemToEdit={problemToEdit}
           isOpen={showModal}
-          problem={selectedProblem}
           handleClose={handleModalClose}
         />
       </Stack>

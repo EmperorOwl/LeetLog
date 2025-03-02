@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -15,29 +14,15 @@ import {
 import Problem from "../types/Problem";
 import { renderDifficultyChip, renderTimeAgo } from "../utils/helper.tsx";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const API_URL = `${BACKEND_URL}/api/problems`;
 const SOLUTION_URL = "/problems/";
 const LEETCODE_URL = "https://leetcode.com/problems/";
 
 interface ProblemTableProps {
+  problems: Problem[];
   handleEditRequest: (problem: Problem) => void;
 }
 
-const ProblemTable = ({ handleEditRequest }: ProblemTableProps) => {
-  const [problems, setProblems] = useState<Problem[] | null>(null);
-
-  useEffect(() => {
-    const fetchProblems = async () => {
-      const response = await fetch(API_URL);
-      const json = await response.json();
-      if (response.ok) {
-        setProblems(json);
-      }
-    };
-    fetchProblems();
-  }, []);
-
+const ProblemTable = ({ problems, handleEditRequest }: ProblemTableProps) => {
   return (
     <TableContainer>
       <Table size="small">
@@ -51,36 +36,33 @@ const ProblemTable = ({ handleEditRequest }: ProblemTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {problems &&
-            problems.map((problem: Problem) => (
-              <TableRow key={problem.number}>
-                <TableCell component="th" scope="row">
-                  {problem.number}. {problem.title}
-                </TableCell>
-                <TableCell>
-                  {renderDifficultyChip(problem.difficulty)}
-                </TableCell>
-                <TableCell>{renderTimeAgo(problem.lastAttempted)}</TableCell>
-                <TableCell>{problem.trick}</TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleEditRequest(problem)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    href={`${SOLUTION_URL}/${problem.number}`}
-                    target="_blank"
-                  >
-                    <OpenInNewIcon />
-                  </IconButton>
-                  <IconButton
-                    href={`${LEETCODE_URL}/${problem.number}`}
-                    target="_blank"
-                  >
-                    <ExploreIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+          {problems.map((problem: Problem) => (
+            <TableRow key={problem.number}>
+              <TableCell component="th" scope="row">
+                {problem.number}. {problem.title}
+              </TableCell>
+              <TableCell>{renderDifficultyChip(problem.difficulty)}</TableCell>
+              <TableCell>{renderTimeAgo(problem.lastAttempted)}</TableCell>
+              <TableCell>{problem.trick}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => handleEditRequest(problem)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  href={`${SOLUTION_URL}/${problem.number}`}
+                  target="_blank"
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+                <IconButton
+                  href={`${LEETCODE_URL}/${problem.number}`}
+                  target="_blank"
+                >
+                  <ExploreIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

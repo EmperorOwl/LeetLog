@@ -1,5 +1,4 @@
 import { useState, useEffect, FormEvent } from "react";
-import { useNavigate } from "react-router";
 import MDEditor from "@uiw/react-md-editor";
 import {
   Alert,
@@ -12,6 +11,7 @@ import {
 } from "@mui/material";
 
 import Problem from "../types/Problem";
+import { useAuth } from "../contexts/Auth.tsx";
 
 const INITIAL_MARKDOWN = `### Clarifying Questions
 - 
@@ -42,10 +42,13 @@ const API_URL = `${BACKEND_URL}/api/problems`;
 
 interface ProblemFormProps {
   initialProblem: Problem | null;
+  handleModalClose: () => void;
 }
 
-const ProblemForm = ({ initialProblem }: ProblemFormProps) => {
-  const navigate = useNavigate();
+const ProblemForm = ({
+  initialProblem,
+  handleModalClose,
+}: ProblemFormProps) => {
   const TODAY = new Date().toISOString().split("T")[0];
   const [error, setError] = useState("");
   // Form fields
@@ -58,6 +61,8 @@ const ProblemForm = ({ initialProblem }: ProblemFormProps) => {
     INITIAL_MARKDOWN,
   );
   const [comments, setComments] = useState("");
+
+  const auth = useAuth();
 
   useEffect(() => {
     if (initialProblem) {
@@ -91,9 +96,7 @@ const ProblemForm = ({ initialProblem }: ProblemFormProps) => {
       comments,
     };
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
+    if (!auth.token) {
       setError("Access denied");
       return;
     }
@@ -101,15 +104,17 @@ const ProblemForm = ({ initialProblem }: ProblemFormProps) => {
     const response = await fetch(url, {
       method: method,
       body: JSON.stringify(problem),
-      headers: { "Content-Type": "application/json", Authorization: token },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: auth.token,
+      },
     });
     const json = await response.json();
     if (!response.ok) {
       setError(json.error);
       return;
     }
-
-    navigate("/");
+    handleModalClose();
   };
 
   return (
