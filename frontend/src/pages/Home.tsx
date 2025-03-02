@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 
 import Problem from "../types/Problem";
 import ProblemTable from "../components/ProblemTable.tsx";
@@ -21,16 +21,23 @@ const Home = () => {
 
   return (
     <Container>
-      <Typography variant="h2">LeetLog</Typography>
-      <Button variant="contained" onClick={() => setShowModal(true)}>
-        Add Problem
-      </Button>
-      <ProblemTable handleEditRequest={handleEditRequest} />
-      <ProblemModal
-        isOpen={showModal}
-        problem={selectedProblem}
-        handleClose={handleModalClose}
-      />
+      <Stack spacing={2}>
+        <Typography variant="h2">LeetLog</Typography>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => setShowModal(true)}
+          sx={{ width: 0.1 }}
+        >
+          Add Problem
+        </Button>
+        <ProblemTable handleEditRequest={handleEditRequest} />
+        <ProblemModal
+          isOpen={showModal}
+          problem={selectedProblem}
+          handleClose={handleModalClose}
+        />
+      </Stack>
     </Container>
   );
 };
