@@ -132,16 +132,17 @@ const ProblemForm = ({
           label="Number"
           value={number}
           onChange={(event) => setNumber(event.target.value)}
-          required
+          slotProps={{ htmlInput: { min: 1, max: 5000 } }}
           sx={{ width: 0.15 }}
+          required
         />
         <TextField
           type="text"
           label="Title"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          required
           sx={{ width: 0.45 }}
+          required
         />
         <FormControl sx={{ width: 0.15 }}>
           <InputLabel required>Difficulty</InputLabel>
@@ -162,8 +163,8 @@ const ProblemForm = ({
           label="Last Attempted"
           value={lastAttempted}
           onChange={(event) => setLastAttempted(event.target.value)}
-          required
           sx={{ width: 0.2 }}
+          required
         />
       </Stack>
 
