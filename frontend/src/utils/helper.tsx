@@ -17,9 +17,13 @@ const renderDifficultyChip = (difficulty: string) => {
 };
 
 const renderTimeAgo = (date: string) => {
-  return formatDistanceToNow(date, {
-    addSuffix: true,
-  });
+  let res = formatDistanceToNow(date, { addSuffix: true });
+  if (res == "1 day ago") {
+    res = "Yesterday";
+  } else if (res.includes("hour")) {
+    res = "Today";
+  }
+  return res;
 };
 
 export { renderDifficultyChip, renderTimeAgo };
