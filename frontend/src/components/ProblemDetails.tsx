@@ -3,7 +3,8 @@ import { useParams } from "react-router";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 
-import ProblemModal from "./ProblemModal";
+import Problem from "../types/Problem";
+import ProblemModal from "./ProblemModal.tsx";
 import { renderDifficultyChip } from "../utils/helper";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -12,7 +13,7 @@ const API_URL = `${BACKEND_URL}/api/problems`;
 const ProblemDetails = () => {
   const { number } = useParams();
 
-  const [problem, setProblem] = useState(null);
+  const [problem, setProblem] = useState<Problem | null>(null);
   const [show, setShow] = useState(false);
 
   const fetchProblem = async () => {
