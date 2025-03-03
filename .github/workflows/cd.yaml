@@ -2,7 +2,8 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - add-github-workflow
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
