@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
   Dialog,
@@ -5,8 +6,8 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
+  Box,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 
 import ProblemForm from "./ProblemForm";
 import Problem from "../types/Problem.ts";
@@ -24,22 +25,22 @@ const ProblemModal = ({
 }: ProblemModalProps) => {
   return (
     <Dialog open={isOpen} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {problemToEdit
-          ? `${problemToEdit.number}. ${problemToEdit.title}`
-          : "Add Problem"}
-      </DialogTitle>
-      <IconButton
-        onClick={handleClose}
-        sx={(theme) => ({
-          position: "absolute",
-          right: 8,
-          top: 8,
-          color: theme.palette.grey[500],
-        })}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        <CloseIcon />
-      </IconButton>
+        <DialogTitle>
+          {problemToEdit
+            ? `${problemToEdit.number}. ${problemToEdit.title}`
+            : "Add Problem"}
+        </DialogTitle>
+        <IconButton onClick={handleClose} sx={{ mr: 1.3 }}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
       <DialogContent dividers>
         <ProblemForm
           initialProblem={problemToEdit}
