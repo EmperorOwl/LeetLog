@@ -6,11 +6,6 @@ import { HydratedDocument } from "mongoose";
 import { IUser, User } from "./models/user";
 import { dropCollection } from "./db";
 
-const adminExists = async (username: string) => {
-  const user: HydratedDocument<IUser> | null = await User.findOne({ username });
-  return user != null;
-};
-
 const createAdmin = async () => {
   const username: string | undefined = process.env.ADMIN_USERNAME;
   const password: string | undefined = process.env.ADMIN_PASSWORD;
@@ -45,4 +40,4 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { adminExists, createAdmin, verifyToken };
+export { createAdmin, verifyToken };
