@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 
+import { verifyToken } from "../auth";
 import {
   getProblems,
   getProblem,
@@ -11,9 +12,9 @@ import {
 const router: Router = express.Router();
 
 router.get("/", getProblems);
-router.post("/", createProblem);
+router.post("/", verifyToken, createProblem);
 router.get("/:number", getProblem);
-router.put("/:number", updateProblem);
-router.delete("/:number", deleteProblem);
+router.put("/:number", verifyToken, updateProblem);
+router.delete("/:number", verifyToken, deleteProblem);
 
 export default router;

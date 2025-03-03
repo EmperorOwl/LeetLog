@@ -24,8 +24,9 @@ CMD ["npm", "run", "test"]
 
 
 FROM base AS build
-CMD ["npm", "run", "build"]
+RUN npm run build
 
 
 FROM build AS prod
+ENV DB_NAME=prod
 CMD ["npm", "start"]
