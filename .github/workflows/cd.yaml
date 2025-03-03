@@ -18,9 +18,8 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            rm -rf /LeetLog
-            git clone https://github.com/EmperorOwl/LeetLog.git
             cd LeetLog
+            git pull
             docker compose down
             export ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             export MONGO_URI=${{ secrets.MONGO_URI }}
