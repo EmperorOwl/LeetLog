@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
 import Problem from "../types/Problem";
 import ProblemTable from "../components/ProblemTable.tsx";
@@ -58,14 +58,15 @@ const Home = () => {
     <Container>
       <Stack spacing={2}>
         <Typography variant="h2">LeetLog</Typography>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => setShowFormModal(true)}
-          sx={{ width: 0.1 }}
-        >
-          Add Problem
-        </Button>
+        <Box>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => setShowFormModal(true)}
+          >
+            Add Problem
+          </Button>
+        </Box>
         <ProblemTable
           problems={problems}
           handleEditRequest={handleEditRequest}
