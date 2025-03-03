@@ -21,9 +21,12 @@ jobs:
             rm -rf LeetLog
             git clone https://${{ secrets.GH_TOKEN }}@github.com/EmperorOwl/LeetLog.git
             cd LeetLog
+            
+            echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> backend/.env.prod
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> backend/.env.prod
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> backend/.env.prod
+            echo "FRONTEND_URL=${{ secrets.VPS_IP }}" >> backend/.env.prod
+            
             sudo docker compose down
-            export ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
-            export MONGO_URI=${{ secrets.MONGO_URI }}
-            export SECRET_KEY=${{ secrets.SECRET_KEY }}
-            export FRONTEND_URL=${{ secrets.VPS_IP }}
-            sudo docker compose up backend-prod frontend-prod --build -d
+            sudo docker compose up backend-prod frontend-prod --build -d --quiet-pull
+            sleep 30
