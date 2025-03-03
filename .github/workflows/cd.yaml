@@ -26,7 +26,7 @@ jobs:
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> backend/.env.prod
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> backend/.env.prod
             echo "FRONTEND_URL=${{ secrets.VPS_IP }}:3000" >> backend/.env.prod
-            echo "VITE_BACKEND_URL=${{ secrets.VPS_IP }}:8080" >> frontend/.env.prod
+            export VITE_BACKEND_URL=${{ secrets.VPS_IP }}:8080
             
             docker compose down
             docker compose up backend-prod frontend-prod --build

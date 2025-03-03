@@ -9,6 +9,7 @@ docker compose up backend-dev frontend-dev --build --menu=false
 Prod
 
 ```sh
+$env:VITE_BACKEND_URL="http://localhost:8080" 
 docker compose up backend-prod frontend-prod --build --menu=false
 ```
 
