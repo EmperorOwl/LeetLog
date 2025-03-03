@@ -14,11 +14,11 @@ import Problem from "../types/Problem";
 import { useAuth } from "../contexts/Auth.tsx";
 import { renderDifficultyChip } from "../utils/helper.tsx";
 
-const INITIAL_MARKDOWN = `### Clarifying Questions
+const INITIAL_MARKDOWN = `#### Clarifying Questions
 - 
 
 
-### 
+#### 
 1. 
 - \`O(n)\` time to iterate over
 - \`O(n)\` space to store
@@ -28,7 +28,7 @@ const INITIAL_MARKDOWN = `### Clarifying Questions
 \`\`\`
 
 
-### 
+#### 
 1. 
 - \`O(n)\` time to iterate over
 - \`O(n)\` space to store

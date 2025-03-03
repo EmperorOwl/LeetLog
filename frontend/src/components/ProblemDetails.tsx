@@ -37,7 +37,7 @@ const ProblemDetails = () => {
   return (
     <Container sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
       {problem ? (
-        <Stack spacing={2} sx={{ width: 0.5 }}>
+        <Stack spacing={2} sx={{ minWidth: 0.5 }}>
           <Box
             sx={{
               display: "flex",
@@ -45,7 +45,7 @@ const ProblemDetails = () => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h4">
+            <Typography variant="h5">
               {`${problem.number}. ${problem.title}`}
             </Typography>
             <Box>
