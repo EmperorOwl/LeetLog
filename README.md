@@ -25,6 +25,10 @@ Docker doesn't install new dependencies
 docker compose down -v
 ```
 
+Notes
+
+- No special characters in the password as bcrypt doesn't handle them well
+
 References
 
 - [Cors](https://expressjs.com/en/resources/middleware/cors.html)
