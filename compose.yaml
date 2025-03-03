@@ -18,7 +18,7 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - .env.prod
+      - ./backend/.env.prod
 
   backend-test:
     build:
