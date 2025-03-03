@@ -6,8 +6,6 @@ RUN npm install
 
 COPY . .
 
-ENV VITE_BACKEND_URL=http://localhost:8080
-
 
 FROM base AS dev
 CMD ["npm", "run", "dev"]

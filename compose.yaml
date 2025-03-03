@@ -35,6 +35,8 @@ services:
     volumes:
       - ./frontend:/app  # Sync the source code
       - /app/node_modules  # Don't sync the node_modules
+    environment:
+      - VITE_BACKEND_URL=http://localhost:8080
 
   frontend-prod:
     build:
@@ -43,4 +45,4 @@ services:
     ports:
       - "3000:80"
     env_file:
-        - ./frontend/.env.prod
+      - ./frontend/.env.prod
