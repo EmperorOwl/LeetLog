@@ -21,9 +21,9 @@ jobs:
             rm -rf LeetLog
             git clone https://${{ secrets.GH_TOKEN }}@github.com/EmperorOwl/LeetLog.git
             cd LeetLog
-            docker compose down
+            sudo docker compose down
             export ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             export MONGO_URI=${{ secrets.MONGO_URI }}
             export SECRET_KEY=${{ secrets.SECRET_KEY }}
             export FRONTEND_URL=${{ secrets.VPS_IP }}
-            docker compose up backend-prod frontend-prod --build -d
+            sudo docker compose up backend-prod frontend-prod --build -d
