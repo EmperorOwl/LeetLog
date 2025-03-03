@@ -42,7 +42,7 @@ const Login = () => {
         component="form"
         spacing={2}
         onSubmit={(event) => handleLogin(event)}
-        sx={{ width: 0.25 }}
+        sx={{ minWidth: 0.25 }}
       >
         <Typography variant="h6" align="center">
           Sign In
