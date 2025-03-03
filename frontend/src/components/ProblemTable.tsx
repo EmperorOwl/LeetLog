@@ -37,7 +37,7 @@ const ProblemTable = ({
             <TableCell>Problem</TableCell>
             <TableCell>Difficulty</TableCell>
             <TableCell>Last Attempted</TableCell>
-            <TableCell>Trick</TableCell>
+            {/*<TableCell>Trick</TableCell>*/}
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -49,7 +49,7 @@ const ProblemTable = ({
               </TableCell>
               <TableCell>{renderDifficultyChip(problem.difficulty)}</TableCell>
               <TableCell>{renderTimeAgo(problem.lastAttempted)}</TableCell>
-              <TableCell>{problem.trick}</TableCell>
+              {/*<TableCell>{problem.trick}</TableCell>*/}
               <TableCell>
                 <IconButton onClick={() => handleEditRequest(problem)}>
                   <EditIcon />
