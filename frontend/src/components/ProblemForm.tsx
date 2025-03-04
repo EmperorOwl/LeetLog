@@ -38,7 +38,7 @@ const INITIAL_MARKDOWN = `#### Clarifying Questions
 \`\`\`
 `;
 
-const API_URL = `/api/problems`;
+const API_URL = `/leetlog/api/problems`;
 
 interface ProblemFormProps {
   initialProblem: Problem | null;

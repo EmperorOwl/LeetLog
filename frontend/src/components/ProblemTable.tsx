@@ -15,7 +15,7 @@ import {
 import Problem from "../types/Problem";
 import { renderDifficultyChip, renderTimeAgo } from "../utils/helper.tsx";
 
-const SOLUTION_URL = "/problems";
+const SOLUTION_URL = "/leetlog/problems";
 const LEETCODE_URL = "https://leetcode.com/problems";
 
 interface ProblemTableProps {

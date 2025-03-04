@@ -14,7 +14,7 @@ const Home = () => {
   const [problemToDelete, setProblemToDelete] = useState<Problem | null>(null);
 
   const fetchProblems = async () => {
-    const response = await fetch("/api/problems");
+    const response = await fetch("/leetlog/api/problems");
     const json = await response.json();
     if (response.ok) {
       setProblems(json);

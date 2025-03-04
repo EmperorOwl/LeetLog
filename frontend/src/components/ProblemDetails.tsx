@@ -14,7 +14,7 @@ const ProblemDetails = () => {
   const [show, setShow] = useState(false);
 
   const fetchProblem = async () => {
-    const response = await fetch(`/api/problems/${number}`);
+    const response = await fetch(`/leetlog/api/problems/${number}`);
     const json = await response.json();
     if (response.ok) {
       setProblem(json);

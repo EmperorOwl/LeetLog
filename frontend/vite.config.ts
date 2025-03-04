@@ -6,7 +6,7 @@ import react from "@vitejs/plugin-react";
 // https://vite.dev/guide/env-and-mode.html
 // https://vite.dev/config/server-options
 export default defineConfig(({ mode }: { mode: string }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, process.cwd());
 
   return {
     plugins: [react()],
@@ -18,9 +18,10 @@ export default defineConfig(({ mode }: { mode: string }) => {
       host: true,
       port: 3000,
       proxy: {
-        "/api": {
+        "/leetlog/api": {
           target: env.VITE_BACKEND_URL + ":8080",
           changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/leetlog/, ""),
         },
       },
       watch: {

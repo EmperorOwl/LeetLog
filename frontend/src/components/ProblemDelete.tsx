@@ -31,7 +31,7 @@ const ProblemDelete = ({
       return;
     }
 
-    const response = await fetch("/api/problems/" + problem?.number, {
+    const response = await fetch("/leetlog/api/problems/" + problem?.number, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
