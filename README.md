@@ -9,7 +9,6 @@ docker compose up backend-dev frontend-dev --build --menu=false
 Prod
 
 ```sh
-$env:VITE_BACKEND_URL="http://localhost:8080" 
 docker compose up backend-prod frontend-prod --build --menu=false
 ```
 
@@ -23,6 +22,12 @@ Docker doesn't install new dependencies
 
 ```sh
 docker compose down -v
+```
+
+Generate a Random JWT Secret Key
+
+```sh
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
 Notes

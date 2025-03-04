@@ -30,8 +30,6 @@ services:
     build:
       context: ./frontend
       target: dev
-      args:
-        VITE_BACKEND_URL: http://localhost:8080
     ports:
       - "3000:3000"
     volumes:
