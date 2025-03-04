@@ -11,9 +11,6 @@ import {
 import Problem from "../types/Problem.ts";
 import { useAuth } from "../contexts/Auth.tsx";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const API_URL = `${BACKEND_URL}/api/problems`;
-
 interface ProblemDeleteProps {
   problem: Problem | null;
   isOpen: boolean;
@@ -34,7 +31,7 @@ const ProblemDelete = ({
       return;
     }
 
-    const response = await fetch(API_URL + "/" + problem?.number, {
+    const response = await fetch("/api/problems/" + problem?.number, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

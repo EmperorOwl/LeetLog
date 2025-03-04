@@ -38,8 +38,7 @@ const INITIAL_MARKDOWN = `#### Clarifying Questions
 \`\`\`
 `;
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const API_URL = `${BACKEND_URL}/api/problems`;
+const API_URL = `/api/problems`;
 
 interface ProblemFormProps {
   initialProblem: Problem | null;

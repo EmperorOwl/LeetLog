@@ -20,9 +20,7 @@ const Login = () => {
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent automatic reload on form submit
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const apiUrl = `${backendUrl}/api/user/login`;
-    const response = await fetch(apiUrl, {
+    const response = await fetch("/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),

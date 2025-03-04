@@ -27,7 +27,6 @@ jobs:
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> backend/.env.prod
             echo "FRONTEND_URL=https://app.raylin.dev" >> backend/.env.prod
             echo "NODE_ENV=prod" >> backend/.env.prod
-            export VITE_BACKEND_URL=https://${{ secrets.VPS_IP }}:8080
             
             docker compose down
             docker compose up backend-prod frontend-prod --build -d

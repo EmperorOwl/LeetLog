@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Toolbar style={{ justifyContent: "center" }}>
-        <Button color="inherit" href="/leetlog">
+        <Button color="inherit" href="/leetlog/">
           Problems
         </Button>
         <Button color="inherit" href="/leetlog/tips">

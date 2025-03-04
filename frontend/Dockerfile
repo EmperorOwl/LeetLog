@@ -7,7 +7,8 @@ RUN npm install
 COPY . .
 
 ARG VITE_BACKEND_URL
-ENV VITE_BACKEND_URL=${VITE_BACKEND_URL:-http://localhost:8080}
+ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
+
 
 FROM base AS dev
 CMD ["npm", "run", "dev"]

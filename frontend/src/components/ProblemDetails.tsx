@@ -7,9 +7,6 @@ import Problem from "../types/Problem";
 import ProblemModal from "./ProblemModal.tsx";
 import { renderDifficultyChip } from "../utils/helper";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const API_URL = `${BACKEND_URL}/api/problems`;
-
 const ProblemDetails = () => {
   const { number } = useParams();
 
@@ -17,7 +14,7 @@ const ProblemDetails = () => {
   const [show, setShow] = useState(false);
 
   const fetchProblem = async () => {
-    const response = await fetch(`${API_URL}/${number}`);
+    const response = await fetch(`/api/problems/${number}`);
     const json = await response.json();
     if (response.ok) {
       setProblem(json);
