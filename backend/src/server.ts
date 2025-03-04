@@ -18,13 +18,15 @@ const main = async () => {
     throw new Error("PORT is not defined");
   }
 
-  const isProd = process.env.NODE_ENV === "prod";
-
-  if (isProd) {
+  if (process.env.ENABLE_SSL) {
     // Set up SSL certificate
     const sslOptions = {
-      key: fs.readFileSync(path.resolve('/etc/letsencrypt/live/app.raylin.dev/privkey.pem')),
-      cert: fs.readFileSync(path.resolve('/etc/letsencrypt/live/app.raylin.dev/fullchain.pem'))
+      key: fs.readFileSync(
+        path.resolve("/etc/letsencrypt/live/app.raylin.dev/privkey.pem"),
+      ),
+      cert: fs.readFileSync(
+        path.resolve("/etc/letsencrypt/live/app.raylin.dev/fullchain.pem"),
+      ),
     };
     // Create HTTPS server
     https.createServer(sslOptions, app).listen(port, () => {

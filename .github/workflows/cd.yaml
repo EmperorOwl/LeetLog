@@ -25,8 +25,7 @@ jobs:
             echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> backend/.env.prod
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> backend/.env.prod
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> backend/.env.prod
-            echo "FRONTEND_URL=https://app.raylin.dev" >> backend/.env.prod
-            echo "NODE_ENV=prod" >> backend/.env.prod
+            echo "ENABLE_SSL=true" >> backend/.env.prod
             
             docker compose down
             docker compose up backend-prod frontend-prod --build -d
