@@ -30,6 +30,12 @@ Generate a Random JWT Secret Key
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
+Generate SSL certificate
+```sh
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx
+```
+
 Notes
 
 - No special characters in the password as bcrypt doesn't handle them well
