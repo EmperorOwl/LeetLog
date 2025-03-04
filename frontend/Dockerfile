@@ -33,4 +33,4 @@ RUN certbot certonly  \
     --agree-tos \
     --non-interactive \
     --staging
-CMD certbot renew && nginx -g 'daemon off;'
+CMD certbot certificates
