@@ -23,7 +23,7 @@ CMD ["npm", "run", "preview"]
 
 FROM nginx:1.26 AS prod
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 RUN apt-get update && \
     apt-get install -y certbot python3-certbot-nginx
 RUN certbot certonly  \
