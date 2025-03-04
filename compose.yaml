@@ -51,7 +51,6 @@ services:
       args:
         VITE_BACKEND_URL: ${VITE_BACKEND_URL}
     ports:
-      - "80:80"
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
