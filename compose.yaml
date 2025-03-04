@@ -37,6 +37,13 @@ services:
       - ./frontend:/app  # Sync the source code
       - /app/node_modules  # Don't sync the node_modules
 
+  frontend-preview:
+    build:
+      context: ./frontend
+      target: preview
+    ports:
+      - "3000:3000"
+
   frontend-prod:
     build:
       context: ./frontend

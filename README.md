@@ -9,7 +9,7 @@ docker compose up backend-dev frontend-dev --build --menu=false
 Prod
 
 ```sh
-docker compose up backend-prod frontend-prod --build --menu=false
+docker compose up backend-prod frontend-preview --build --menu=false
 ```
 
 Test
