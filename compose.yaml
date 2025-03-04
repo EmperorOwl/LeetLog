@@ -21,7 +21,7 @@ services:
       - path: ./backend/.env.prod
         required: false
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro  # Sync the SSL certificate
 
   backend-test:
     build:
