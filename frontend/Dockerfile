@@ -24,5 +24,5 @@ CMD ["npm", "run", "preview"]
 FROM nginx:1.26 AS prod
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN chown nginx:nginx /usr/share/nginx/html/*
+RUN chmod -R 755 /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
