@@ -13,7 +13,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/problems" element={<Navigate to="/leetlog" />} />
+          <Route path="/problems" element={<Navigate to="/" />} />
           <Route path="/problems/:number" element={<ProblemDetails />} />
           <Route path="/login" element={<Login />} />
         </Routes>
