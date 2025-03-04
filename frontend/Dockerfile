@@ -22,7 +22,6 @@ CMD ["npm", "run", "preview"]
 
 
 FROM nginx:1.26 AS prod
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html/leetlog
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN chmod -R 755 /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
