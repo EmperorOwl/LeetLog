@@ -68,7 +68,9 @@ const ProblemDetails = () => {
             </Box>
           </Box>
           <Box>{renderDifficultyChip(problem.difficulty)}</Box>
-          <MDEditor.Markdown source={problem.solution} />
+          <Box data-color-mode="light">
+            <MDEditor.Markdown source={problem.solution} />
+          </Box>
           <ProblemModal
             problemToEdit={problem}
             isOpen={show}
