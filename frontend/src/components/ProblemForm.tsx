@@ -2,6 +2,7 @@ import { useState, useEffect, FormEvent } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import {
   Alert,
+  Box,
   FormControl,
   InputLabel,
   MenuItem,
@@ -136,13 +137,15 @@ const ProblemForm = ({
       />
 
       {/* Row 3: Solution Markdown */}
-      <MDEditor
-        value={solution}
-        onChange={setSolution}
-        height={500}
-        visibleDragbar={false}
-        style={{ marginLeft: 1.1, marginRight: 1.1 }}
-      />
+      <Box data-color-mode="light">
+        <MDEditor
+          value={solution}
+          onChange={setSolution}
+          height={500}
+          visibleDragbar={false}
+          style={{ marginLeft: 1, marginRight: 1 }}
+        />
+      </Box>
 
       {/* Row 4: Comments */}
       <TextField

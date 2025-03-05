@@ -45,3 +45,4 @@ References
 - [Cors](https://expressjs.com/en/resources/middleware/cors.html)
 - [One Dockerfile](https://dev.to/massivebrains/use-same-dockerfile-for-dev-production-1l7f)
 - [Mongoose TS](https://mongoosejs.com/docs/typescript.html)
+- [React MD Editor](https://github.com/uiwjs/react-md-editor)
