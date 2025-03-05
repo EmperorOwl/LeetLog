@@ -16,7 +16,7 @@ const Navbar = () => {
       );
     } else {
       return (
-        <IconButton href="/login">
+        <IconButton href="/leetlog/login">
           <LoginIcon />
         </IconButton>
       );
@@ -26,10 +26,10 @@ const Navbar = () => {
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Toolbar style={{ justifyContent: "center" }}>
-        <Button color="inherit" href="/">
+        <Button color="inherit" href="/leetlog/">
           Problems
         </Button>
-        <Button color="inherit" href="/tips">
+        <Button color="inherit" href="/leetlog/tips">
           Tips
         </Button>
         {getAuthIcon()}

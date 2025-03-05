@@ -8,7 +8,7 @@ import ProblemDetails from "./components/ProblemDetails.tsx";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/leetlog">
       <AuthProvider>
         <Navbar />
         <Routes>

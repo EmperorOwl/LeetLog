@@ -6,9 +6,6 @@ import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
 import ProblemDelete from "../components/ProblemDelete.tsx";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const API_URL = `${BACKEND_URL}/api/problems`;
-
 const Home = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -17,7 +14,7 @@ const Home = () => {
   const [problemToDelete, setProblemToDelete] = useState<Problem | null>(null);
 
   const fetchProblems = async () => {
-    const response = await fetch(API_URL);
+    const response = await fetch("/leetlog/api/problems");
     const json = await response.json();
     if (response.ok) {
       setProblems(json);

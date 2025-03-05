@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 import app from "../app";
 import { connectDatabase, disconnectDatabase } from "../db";
-import { checkAdmin } from "../auth";
+import { createAdmin } from "../auth";
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ let server: http.Server;
 
 beforeAll(async () => {
   await connectDatabase();
-  await checkAdmin();
+  await createAdmin();
   server = app.listen(0, async () => {
     console.log(`Test server opened`);
   });

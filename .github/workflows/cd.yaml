@@ -1,0 +1,31 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            rm -rf LeetLog
+            git clone --branch master https://${{ secrets.GH_TOKEN }}@github.com/EmperorOwl/LeetLog.git
+            cd LeetLog
+            
+            echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> backend/.env.prod
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> backend/.env.prod
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> backend/.env.prod
+            echo "ENABLE_SSL=true" >> backend/.env.prod
+            
+            docker compose down
+            docker compose up backend-prod frontend-prod --build -d

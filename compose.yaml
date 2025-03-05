@@ -17,6 +17,11 @@ services:
       target: prod
     ports:
       - "8080:8080"
+    env_file:
+      - path: ./backend/.env.prod
+        required: false
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro  # Sync the SSL certificate
 
   backend-test:
     build:
@@ -28,15 +33,30 @@ services:
     build:
       context: ./frontend
       target: dev
+      args:
+        VITE_BACKEND_URL: "http://backend-dev"
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/app  # Sync the source code
       - /app/node_modules  # Don't sync the node_modules
 
+  frontend-preview:
+    build:
+      context: ./frontend
+      target: preview
+      args:
+        VITE_BACKEND_URL: "http://backend-prod"
+    ports:
+      - "3000:3000"
+
   frontend-prod:
     build:
       context: ./frontend
       target: prod
+      args:
+        VITE_BACKEND_URL: "https://backend-prod"
     ports:
-      - "3000:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro  # Sync the SSL certificate
