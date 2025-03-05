@@ -2,7 +2,7 @@ name: Deploy
 on:
   push:
     branches:
-      - add-github-workflow
+      - master
 
 jobs:
   deploy:
@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             rm -rf LeetLog
-            git clone --branch add-github-workflow https://${{ secrets.GH_TOKEN }}@github.com/EmperorOwl/LeetLog.git
+            git clone --branch master https://${{ secrets.GH_TOKEN }}@github.com/EmperorOwl/LeetLog.git
             cd LeetLog
             
             echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> backend/.env.prod
