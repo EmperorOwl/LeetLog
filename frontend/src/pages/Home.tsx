@@ -5,6 +5,7 @@ import Problem from "../types/Problem";
 import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
 import ProblemDelete from "../components/ProblemDelete.tsx";
+import { fetchProblems } from "../services/problem.ts";
 
 const Home = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
@@ -13,16 +14,17 @@ const Home = () => {
   const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
   const [problemToDelete, setProblemToDelete] = useState<Problem | null>(null);
 
-  const fetchProblems = async () => {
-    const response = await fetch("/leetlog/api/problems");
-    const json = await response.json();
-    if (response.ok) {
-      setProblems(json);
+  const fetchData = async () => {
+    try {
+      const data = await fetchProblems();
+      setProblems(data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchProblems();
+    fetchData();
   }, []);
 
   const handleEditRequest = (problem: Problem) => {
@@ -39,7 +41,7 @@ const Home = () => {
     setShowFormModal(false);
     setTimeout(() => {
       setProblemToEdit(null);
-      fetchProblems();
+      fetchData();
     }, 100); // Add some delay before re-fetching
   };
 
@@ -47,7 +49,7 @@ const Home = () => {
     setShowDeleteModal(false);
     setTimeout(() => {
       setProblemToDelete(null);
-      fetchProblems();
+      fetchData();
     }, 100); // Add some delay before re-fetching
   };
 

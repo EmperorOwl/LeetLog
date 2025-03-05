@@ -11,34 +11,10 @@ import {
 } from "@mui/material";
 
 import Problem from "../types/Problem";
+import { updateProblem, createProblem } from "../services/problem.ts";
 import { useAuth } from "../contexts/Auth.tsx";
 import { renderDifficultyChip } from "../utils/helper.tsx";
-
-const INITIAL_MARKDOWN = `#### Clarifying Questions
-- 
-
-
-#### 
-1. 
-- \`O(n)\` time to iterate over
-- \`O(n)\` space to store
-
-\`\`\`python
-
-\`\`\`
-
-
-#### 
-1. 
-- \`O(n)\` time to iterate over
-- \`O(n)\` space to store
-
-\`\`\`python
-
-\`\`\`
-`;
-
-const API_URL = `/leetlog/api/problems`;
+import { TEMPLATE } from "../utils/constants.ts";
 
 interface ProblemFormProps {
   initialProblem: Problem | null;
@@ -57,9 +33,7 @@ const ProblemForm = ({
   const [difficulty, setDifficulty] = useState("medium");
   const [lastAttempted, setLastAttempted] = useState(TODAY);
   const [trick, setTrick] = useState("");
-  const [solution, setSolution] = useState<string | undefined>(
-    INITIAL_MARKDOWN,
-  );
+  const [solution, setSolution] = useState<string | undefined>(TEMPLATE);
   const [comments, setComments] = useState("");
 
   const auth = useAuth();
@@ -81,40 +55,26 @@ const ProblemForm = ({
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent automatic reload on form submit
 
-    const url = initialProblem
-      ? `${API_URL}/${initialProblem.number}`
-      : API_URL;
-    const method = initialProblem ? "PUT" : "POST";
-
-    const problem = {
-      number,
+    const problem: Problem = {
+      number: parseInt(number, 10),
       title,
       difficulty,
       lastAttempted,
       trick,
-      solution,
+      solution: solution || "",
       comments,
     };
 
-    if (!auth.token) {
-      setError("Access denied");
-      return;
+    try {
+      if (initialProblem) {
+        await updateProblem(problem, auth.token);
+      } else {
+        await createProblem(problem, auth.token);
+      }
+      handleModalClose();
+    } catch (error) {
+      setError((error as Error).message);
     }
-
-    const response = await fetch(url, {
-      method: method,
-      body: JSON.stringify(problem),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: auth.token,
-      },
-    });
-    const json = await response.json();
-    if (!response.ok) {
-      setError(json.error);
-      return;
-    }
-    handleModalClose();
   };
 
   return (

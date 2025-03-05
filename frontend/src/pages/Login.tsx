@@ -9,29 +9,22 @@ import {
 } from "@mui/material";
 
 import { useAuth } from "../contexts/Auth.tsx";
+import { loginUser } from "../services/auth.ts";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const auth = useAuth();
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent automatic reload on form submit
-
-    const response = await fetch("/leetlog/api/user/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-    if (!response.ok) {
-      setError("Invalid username or password");
-      return;
+    try {
+      const token = await loginUser(username, password);
+      auth.login(token);
+    } catch (error) {
+      setError((error as Error).message);
     }
-    const data = await response.json();
-
-    auth.login(data.token);
   };
 
   return (

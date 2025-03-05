@@ -13,7 +13,7 @@ const loginUser = async (req: Request, res: Response) => {
       username,
     });
     if (!user) {
-      res.status(401).json({ error: "Login failed" });
+      res.status(404).json({ error: "Incorrect username" });
       return;
     }
     // Check password
@@ -22,13 +22,13 @@ const loginUser = async (req: Request, res: Response) => {
       user.password,
     );
     if (!passwordMatch) {
-      res.status(401).json({ error: "Login failed" });
+      res.status(401).json({ error: "Incorrect password" });
       return;
     }
     // Generate token
     const secretKey: string | undefined = process.env.SECRET_KEY;
     if (!secretKey) {
-      res.status(500).json({ error: "Login failed" });
+      res.status(500).send();
       return;
     }
     const token: string = jwt.sign({ userId: user._id }, secretKey, {
@@ -36,8 +36,8 @@ const loginUser = async (req: Request, res: Response) => {
     });
     res.status(200).json({ token });
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ error: "Login failed" });
+    console.error(error);
+    res.status(500).send();
   }
 };
 

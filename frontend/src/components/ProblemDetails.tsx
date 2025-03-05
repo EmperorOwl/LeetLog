@@ -1,40 +1,52 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Stack,
+  Typography,
+} from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 
 import Problem from "../types/Problem";
 import ProblemModal from "./ProblemModal.tsx";
 import { renderDifficultyChip } from "../utils/helper";
+import { fetchProblem } from "../services/problem.ts";
 
 const ProblemDetails = () => {
   const { number } = useParams();
 
   const [problem, setProblem] = useState<Problem | null>(null);
   const [show, setShow] = useState(false);
+  const [error, setError] = useState("");
 
-  const fetchProblem = async () => {
-    const response = await fetch(`/leetlog/api/problems/${number}`);
-    const json = await response.json();
-    if (response.ok) {
-      setProblem(json);
-      document.title = `${json.number}. ${json.title}`;
+  const fetchData = async () => {
+    try {
+      if (number) {
+        const data = await fetchProblem(number);
+        setProblem(data);
+        document.title = `${data.number}. ${data.title}`;
+      }
+    } catch (error) {
+      setError((error as Error).message);
     }
   };
 
   useEffect(() => {
-    fetchProblem();
+    fetchData();
   }, []);
 
   const handleClose = () => {
     setShow(false);
-    fetchProblem();
+    fetchData();
   };
 
   return (
     <Container sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
       {problem ? (
-        <Stack spacing={2} sx={{ minWidth: 0.5 }}>
+        <Stack spacing={2} sx={{ minWidth: 0.5, maxWidth: 0.8 }}>
           <Box
             sx={{
               display: "flex",
@@ -64,7 +76,7 @@ const ProblemDetails = () => {
           />
         </Stack>
       ) : (
-        <p>Loading...</p>
+        error && <Alert severity="error">{error}</Alert>
       )}
     </Container>
   );
