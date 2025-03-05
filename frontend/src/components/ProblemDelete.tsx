@@ -6,9 +6,11 @@ import {
   DialogContent,
   DialogActions,
   DialogContentText,
+  Alert,
 } from "@mui/material";
 
 import Problem from "../types/Problem.ts";
+import { deleteProblem } from "../services/problem.ts";
 import { useAuth } from "../contexts/Auth.tsx";
 
 interface ProblemDeleteProps {
@@ -26,22 +28,18 @@ const ProblemDelete = ({
   const auth = useAuth();
 
   const handleDelete = async () => {
-    if (!auth.token) {
-      setError("Access denied");
-      return;
+    try {
+      if (problem) {
+        await deleteProblem(problem, auth.token);
+        handleClose();
+      }
+    } catch (error) {
+      setError((error as Error).message);
     }
+  };
 
-    const response = await fetch("/leetlog/api/problems/" + problem?.number, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: auth.token,
-      },
-    });
-    if (!response.ok) {
-      setError("Failed to delete problem");
-      return;
-    }
+  const handleCancel = () => {
+    setError("");
     handleClose();
   };
 
@@ -52,11 +50,15 @@ const ProblemDelete = ({
         <DialogContentText>
           {`This will permanently delete ${problem?.number}. ${problem?.title}`}
         </DialogContentText>
-        {error && <DialogContentText color="error">{error}</DialogContentText>}
+        {error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error}
+          </Alert>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleDelete}>Yes</Button>
-        <Button onClick={handleClose}>No</Button>
+        <Button onClick={handleCancel}>No</Button>
       </DialogActions>
     </Dialog>
   );
