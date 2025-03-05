@@ -4,11 +4,16 @@ const API_URL = "/leetlog/api/problems";
 
 const request = async (url: string, options: RequestInit) => {
   const response = await fetch(url, options);
-  if (response.status == 204) {
-    return;
-  }
-  if ([401, 404, 500].includes(response.status)) {
-    throw new Error(`${response.status} ${response.statusText}`);
+
+  switch (response.status) {
+    case 204:
+      return;
+    case 401:
+      throw new Error("401 Unauthorized");
+    case 404:
+      throw new Error("404 Not Found");
+    case 500:
+      throw new Error("500 Internal Server Error");
   }
   const json = await response.json();
   if (!response.ok) {

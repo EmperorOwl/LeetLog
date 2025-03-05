@@ -5,7 +5,7 @@ const loginUser = async (username: string, password: string) => {
     body: JSON.stringify({ username, password }),
   });
   if (response.status == 500) {
-    throw new Error(`${response.status} ${response.statusText}`);
+    throw new Error("500 Internal Server Error");
   }
   const json = await response.json();
   if (!response.ok) {
