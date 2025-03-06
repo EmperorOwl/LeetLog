@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Button, Container, Stack, TextField, Typography } from "@mui/material";
 
 import Problem from "../types/Problem";
 import ProblemTable from "../components/ProblemTable.tsx";
@@ -9,6 +9,7 @@ import { fetchProblems } from "../services/problem.ts";
 
 const Home = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
@@ -53,21 +54,28 @@ const Home = () => {
     }, 100); // Add some delay before re-fetching
   };
 
+  const filteredProblems = problems.filter((problem) =>
+    problem.title.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
     <Container>
       <Stack spacing={2}>
         <Typography variant="h2">LeetLog</Typography>
-        <Box>
-          <Button
-            variant="contained"
+        <Stack direction="row" spacing={3} alignItems="center">
+          <TextField
+            label="Search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
             size="small"
-            onClick={() => setShowFormModal(true)}
-          >
+            sx={{ width: 0.3 }}
+          />
+          <Button variant="contained" onClick={() => setShowFormModal(true)}>
             Add Problem
           </Button>
-        </Box>
+        </Stack>
         <ProblemTable
-          problems={problems}
+          problems={filteredProblems}
           handleEditRequest={handleEditRequest}
           handleDeleteRequest={handleDeleteRequest}
         />
