@@ -6,18 +6,24 @@ import { NEETCODE_150 } from "../utils/constants";
 
 const getProblems = async (req: Request, res: Response) => {
   let { list } = req.query;
+  list = typeof list === "string" ? list.toLowerCase() : "all";
   try {
     let problems: HydratedDocument<IProblem>[] = await Problem.find().sort({
       lastAttempted: -1,
     });
-    // Check list filter
-    if (list) {
-      list = (list as string).toLowerCase();
-      if (list.toLowerCase() === "neetcode150") {
-        problems = problems.filter((problem) =>
-          NEETCODE_150.flat().includes(problem.number),
-        );
+    if (list === "neetcode150") {
+      const filteredProblems: HydratedDocument<IProblem>[] = [];
+      for (const number of NEETCODE_150.flat()) {
+        const problem = problems.find((problem) => problem.number === number);
+        if (problem) {
+          filteredProblems.push(problem);
+        }
       }
+      problems = filteredProblems;
+    } else if (list === "notinlist") {
+      problems = problems.filter(
+        (problem) => !NEETCODE_150.flat().includes(problem.number),
+      );
     }
     res.status(200).json(problems);
   } catch (error) {
