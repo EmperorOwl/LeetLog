@@ -25,6 +25,16 @@ const validProblems: MockProblem[] = [
     title: "Median of Two Sorted Arrays",
     difficulty: "hard",
   },
+  {
+    number: 5,
+    title: "Longest Palindromic Substring",
+    difficulty: "medium",
+  },
+  {
+    number: 6,
+    title: "Zigzag Conversion",
+    difficulty: "medium",
+  },
 ];
 
 const invalidProblems: [string, MockProblem][] = [

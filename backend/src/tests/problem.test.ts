@@ -18,11 +18,15 @@ const setToken = async () => {
   console.log("Logged in and token set");
 };
 
-const testGetAllProblems = (count: number) => {
+const testGetAllProblems = (
+  count: number,
+  list: string | undefined = undefined,
+) => {
   test(`Get all problems (${count})`, async () => {
     const response = await request(app)
       .get("/api/problems")
-      .set("Authorization", app.locals.token);
+      .set("Authorization", app.locals.token)
+      .query({ list: list });
     expect(response.status).toBe(200);
     expect(response.body.length).toBe(count);
   });
@@ -113,6 +117,7 @@ describe("Happy Case", () => {
     testCreateProblem(problem, `Add problem #${problem.number}`, true);
   });
   testGetAllProblems(validProblems.length);
+  testGetAllProblems(5, "neetcode150");
   testGetProblem(1, true);
 
   const updatedProblem = JSON.parse(JSON.stringify(validProblems[0])); // Deep copy
