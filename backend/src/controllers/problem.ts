@@ -2,12 +2,23 @@ import { Request, Response } from "express";
 import mongoose, { HydratedDocument } from "mongoose";
 
 import { IProblem, Problem } from "../models/problem";
+import { NEETCODE_150 } from "../utils/constants";
 
-const getProblems = async (_: Request, res: Response) => {
+const getProblems = async (req: Request, res: Response) => {
+  let { list } = req.query;
   try {
-    const problems: HydratedDocument<IProblem>[] = await Problem.find().sort({
+    let problems: HydratedDocument<IProblem>[] = await Problem.find().sort({
       lastAttempted: -1,
     });
+    // Check list filter
+    if (list) {
+      list = (list as string).toLowerCase();
+      if (list.toLowerCase() === "neetcode150") {
+        problems = problems.filter((problem) =>
+          NEETCODE_150.flat().includes(problem.number),
+        );
+      }
+    }
     res.status(200).json(problems);
   } catch (error) {
     console.error(error);
