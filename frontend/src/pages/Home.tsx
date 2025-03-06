@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Stack, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import Problem from "../types/Problem";
 import ProblemTable from "../components/ProblemTable.tsx";
@@ -10,23 +20,19 @@ import { fetchProblems } from "../services/problem.ts";
 const Home = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [listFilter, setListFilter] = useState("all");
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
   const [problemToDelete, setProblemToDelete] = useState<Problem | null>(null);
 
-  const fetchData = async () => {
-    try {
-      const data = await fetchProblems();
-      setProblems(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
-  }, []);
+    // Refresh when the modal is closed, not when it is opened
+    // or whenever the list filter changes
+    if (!showFormModal && !showDeleteModal) {
+      fetchProblems(listFilter).then(setProblems, console.error);
+    }
+  }, [listFilter, showFormModal, showDeleteModal]);
 
   const handleEditRequest = (problem: Problem) => {
     setProblemToEdit(problem);
@@ -42,7 +48,6 @@ const Home = () => {
     setShowFormModal(false);
     setTimeout(() => {
       setProblemToEdit(null);
-      fetchData();
     }, 100); // Add some delay before re-fetching
   };
 
@@ -50,7 +55,6 @@ const Home = () => {
     setShowDeleteModal(false);
     setTimeout(() => {
       setProblemToDelete(null);
-      fetchData();
     }, 100); // Add some delay before re-fetching
   };
 
@@ -72,6 +76,19 @@ const Home = () => {
             size="small"
             sx={{ width: 0.3 }}
           />
+          <FormControl sx={{ width: 0.15 }}>
+            <InputLabel>List</InputLabel>
+            <Select
+              label="List"
+              value={listFilter}
+              onChange={(event) => setListFilter(event.target.value)}
+              size="small"
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="neetcode150">Neetcode 150</MenuItem>
+              <MenuItem value="notinlist">Not in List</MenuItem>
+            </Select>
+          </FormControl>
           <Button variant="contained" onClick={() => setShowFormModal(true)}>
             Add Problem
           </Button>

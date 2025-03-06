@@ -22,8 +22,8 @@ const request = async (url: string, options: RequestInit) => {
   return json;
 };
 
-const fetchProblems = async () => {
-  return request(API_URL, {});
+const fetchProblems = async (listFilter: string) => {
+  return request(`${API_URL}?list=${listFilter}`, {});
 };
 
 const fetchProblem = async (number: string) => {
