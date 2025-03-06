@@ -55,7 +55,9 @@ const Home = () => {
   };
 
   const filteredProblems = problems.filter((problem) =>
-    problem.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    `${problem.number}. ${problem.title}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase()),
   );
 
   return (
