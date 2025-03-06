@@ -6,7 +6,7 @@ import { IProblem, Problem } from "../models/problem";
 const getProblems = async (_: Request, res: Response) => {
   try {
     const problems: HydratedDocument<IProblem>[] = await Problem.find().sort({
-      createdAt: -1,
+      lastAttempted: -1,
     });
     res.status(200).json(problems);
   } catch (error) {
