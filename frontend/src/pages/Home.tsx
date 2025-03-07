@@ -7,11 +7,11 @@ import {
   MenuItem,
   Select,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 
 import Problem from "../types/Problem";
+import ProblemSearchBar from "../components/ProblemSearchBar.tsx";
 import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
 import ProblemDelete from "../components/ProblemDelete.tsx";
@@ -69,13 +69,7 @@ const Home = () => {
       <Stack spacing={2}>
         <Typography variant="h2">LeetLog</Typography>
         <Stack direction="row" spacing={3} alignItems="center">
-          <TextField
-            label="Search"
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-            size="small"
-            sx={{ width: 0.3 }}
-          />
+          <ProblemSearchBar value={searchQuery} setter={setSearchQuery} />
           <FormControl sx={{ width: 0.15 }}>
             <InputLabel>List</InputLabel>
             <Select
