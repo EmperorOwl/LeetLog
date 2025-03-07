@@ -1,17 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 
 import Problem from "../types/Problem";
 import ProblemSearchBar from "../components/ProblemSearchBar.tsx";
+import ProblemListFilter from "../components/ProblemListFilter.tsx";
 import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
 import ProblemDelete from "../components/ProblemDelete.tsx";
@@ -27,8 +19,8 @@ const Home = () => {
   const [problemToDelete, setProblemToDelete] = useState<Problem | null>(null);
 
   useEffect(() => {
-    // Refresh when the modal is closed, not when it is opened
-    // or whenever the list filter changes
+    // Refresh when the list filter changes or when a modal is closed
+    // Don't refresh when a modal is opened
     if (!showFormModal && !showDeleteModal) {
       fetchProblems(listFilter).then(setProblems, console.error);
     }
@@ -70,19 +62,7 @@ const Home = () => {
         <Typography variant="h2">LeetLog</Typography>
         <Stack direction="row" spacing={3} alignItems="center">
           <ProblemSearchBar value={searchQuery} setter={setSearchQuery} />
-          <FormControl sx={{ width: 0.15 }}>
-            <InputLabel>List</InputLabel>
-            <Select
-              label="List"
-              value={listFilter}
-              onChange={(event) => setListFilter(event.target.value)}
-              size="small"
-            >
-              <MenuItem value="all">All</MenuItem>
-              <MenuItem value="neetcode150">Neetcode 150</MenuItem>
-              <MenuItem value="notinlist">Not in List</MenuItem>
-            </Select>
-          </FormControl>
+          <ProblemListFilter value={listFilter} setter={setListFilter} />
           <Button variant="contained" onClick={() => setShowFormModal(true)}>
             Add Problem
           </Button>
@@ -106,4 +86,5 @@ const Home = () => {
     </Container>
   );
 };
+
 export default Home;

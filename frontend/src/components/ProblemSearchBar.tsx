@@ -3,7 +3,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 interface ProblemSearchBarProps {
   value: string;
-  setter: (searchQuery: string) => void;
+  setter: (newValue: string) => void;
 }
 
 const ProblemSearchBar = ({ value, setter }: ProblemSearchBarProps) => {
@@ -13,7 +13,7 @@ const ProblemSearchBar = ({ value, setter }: ProblemSearchBarProps) => {
       value={value}
       onChange={(event) => setter(event.target.value)}
       size="small"
-      sx={{ width: 0.3 }}
+      sx={{ width: 0.25 }}
       slotProps={{
         input: {
           endAdornment: value && (
