@@ -1,4 +1,4 @@
-const TEMPLATE = `#### Clarifying Questions
+export const TEMPLATE = `#### Clarifying Questions
 - 
 
 
@@ -22,4 +22,22 @@ const TEMPLATE = `#### Clarifying Questions
 \`\`\`
 `;
 
-export { TEMPLATE };
+export const TOPICS = [
+  "hashmap",
+  "two pointers",
+  "sliding window",
+  "stack",
+  "binary search",
+  "linked list",
+  "tree",
+  "heap",
+  "backtracking",
+  "trie",
+  "graph",
+  "1 dp",
+  "2 dp",
+  "greedy",
+  "interval",
+  "math",
+  "bit",
+];

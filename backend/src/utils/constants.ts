@@ -18,3 +18,25 @@ export const NEETCODE_150 = [
   [48, 54, 73, 202, 66, 50, 43, 2013],
   [136, 191, 338, 190, 268, 371, 7],
 ];
+
+export const DIFFICULTIES = ["easy", "medium", "hard"] as const;
+
+export const TOPICS = [
+  "hashmap",
+  "two pointers",
+  "sliding window",
+  "stack",
+  "binary search",
+  "linked list",
+  "tree",
+  "heap",
+  "backtracking",
+  "trie",
+  "graph",
+  "1 dp",
+  "2 dp",
+  "greedy",
+  "interval",
+  "math",
+  "bit",
+] as const;

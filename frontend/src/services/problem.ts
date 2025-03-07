@@ -22,8 +22,16 @@ const request = async (url: string, options: RequestInit) => {
   return json;
 };
 
-const fetchProblems = async (listFilter: string) => {
-  return request(`${API_URL}?list=${listFilter}`, {});
+const fetchProblems = async (listFilter: string, topicFilter: string) => {
+  const params: { [key: string]: string } = {};
+  if (listFilter !== "all") {
+    params["list"] = listFilter;
+  }
+  if (topicFilter !== "all") {
+    params["topic"] = topicFilter;
+  }
+  const apiUrl = API_URL + "?" + new URLSearchParams(params).toString();
+  return request(apiUrl, {});
 };
 
 const fetchProblem = async (number: string) => {

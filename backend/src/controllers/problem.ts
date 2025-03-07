@@ -2,15 +2,25 @@ import { Request, Response } from "express";
 import mongoose, { HydratedDocument } from "mongoose";
 
 import { IProblem, Problem } from "../models/problem";
-import { NEETCODE_150 } from "../utils/constants";
+import { NEETCODE_150, TOPICS } from "../utils/constants";
+
+const topics: string[] = Array.from(TOPICS);
 
 const getProblems = async (req: Request, res: Response) => {
-  let { list } = req.query;
-  list = typeof list === "string" ? list.toLowerCase() : "all";
+  let { list, topic } = req.query;
+
+  if (topic && !topics.includes(topic as string)) {
+    res.status(400).json({ error: "Invalid topic" });
+    return;
+  }
+
   try {
-    let problems: HydratedDocument<IProblem>[] = await Problem.find().sort({
+    let problems: HydratedDocument<IProblem>[] = await Problem.find(
+      topic ? { topic: topic } : {},
+    ).sort({
       lastAttempted: -1,
     });
+
     if (list === "neetcode150") {
       const filteredProblems: HydratedDocument<IProblem>[] = [];
       for (const number of NEETCODE_150.flat()) {
@@ -24,7 +34,11 @@ const getProblems = async (req: Request, res: Response) => {
       problems = problems.filter(
         (problem) => !NEETCODE_150.flat().includes(problem.number),
       );
+    } else if (list !== undefined) {
+      res.status(400).json({ error: "Invalid list" });
+      return;
     }
+
     res.status(200).json(problems);
   } catch (error) {
     console.error(error);

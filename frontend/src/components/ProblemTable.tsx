@@ -13,7 +13,11 @@ import {
 } from "@mui/material";
 
 import Problem from "../types/Problem";
-import { renderDifficultyChip, renderTimeAgo } from "../utils/helper.tsx";
+import {
+  renderDifficultyChip,
+  renderTimeAgo,
+  renderTopicChip,
+} from "../utils/helper.tsx";
 
 const SOLUTION_URL = "/leetlog/problems";
 const LEETCODE_URL = "https://leetcode.com/problems";
@@ -36,8 +40,8 @@ const ProblemTable = ({
           <TableRow>
             <TableCell>Problem</TableCell>
             <TableCell>Difficulty</TableCell>
+            <TableCell>Topic</TableCell>
             <TableCell>Last Attempted</TableCell>
-            {/*<TableCell>Trick</TableCell>*/}
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -48,8 +52,8 @@ const ProblemTable = ({
                 {problem.number}. {problem.title}
               </TableCell>
               <TableCell>{renderDifficultyChip(problem.difficulty)}</TableCell>
+              <TableCell>{renderTopicChip(problem.topic)}</TableCell>
               <TableCell>{renderTimeAgo(problem.lastAttempted)}</TableCell>
-              {/*<TableCell>{problem.trick}</TableCell>*/}
               <TableCell>
                 <IconButton onClick={() => handleEditRequest(problem)}>
                   <EditIcon />
