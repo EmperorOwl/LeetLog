@@ -16,7 +16,7 @@ const ProblemListFilter = ({ value, setter }: ProblemListFilterProps) => {
         size="small"
       >
         <MenuItem value="all">All</MenuItem>
-        <MenuItem value="neetcode150">Neetcode 150</MenuItem>
+        <MenuItem value="neetcode150">NeetCode 150</MenuItem>
         <MenuItem value="notinlist">Not in List</MenuItem>
       </Select>
     </FormControl>
