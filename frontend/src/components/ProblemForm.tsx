@@ -14,12 +14,12 @@ import {
 import Problem from "../types/Problem";
 import { updateProblem, createProblem } from "../services/problem.ts";
 import { useAuth } from "../contexts/Auth.tsx";
+import { TEMPLATE, TOPICS } from "../utils/constants.ts";
 import {
   pretty,
   renderDifficultyChip,
   renderTopicChip,
 } from "../utils/helper.tsx";
-import { TEMPLATE, TOPICS } from "../utils/constants.ts";
 
 interface ProblemFormProps {
   initialProblem: Problem | null;
