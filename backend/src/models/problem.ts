@@ -1,9 +1,15 @@
 import mongoose, { Schema, Model } from "mongoose";
 
+import { DIFFICULTIES, TOPICS } from "../utils/constants";
+
+type Difficulty = (typeof DIFFICULTIES)[number];
+type Topic = (typeof TOPICS)[number];
+
 interface IProblem {
   number: number;
   title: string;
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: Difficulty;
+  topic: Topic;
   lastAttempted: Date;
   trick: string;
   solution: string;
@@ -16,9 +22,10 @@ const problemSchema: Schema<IProblem> = new Schema<IProblem>(
     title: { type: String, unique: true, required: true },
     difficulty: {
       type: String,
-      enum: ["easy", "medium", "hard"],
+      enum: DIFFICULTIES,
       required: true,
     },
+    topic: { type: String, enum: TOPICS },
     lastAttempted: { type: Date },
     trick: { type: String },
     solution: { type: String },
