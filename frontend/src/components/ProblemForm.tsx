@@ -14,8 +14,12 @@ import {
 import Problem from "../types/Problem";
 import { updateProblem, createProblem } from "../services/problem.ts";
 import { useAuth } from "../contexts/Auth.tsx";
-import { renderDifficultyChip } from "../utils/helper.tsx";
-import { TEMPLATE } from "../utils/constants.ts";
+import {
+  pretty,
+  renderDifficultyChip,
+  renderTopicChip,
+} from "../utils/helper.tsx";
+import { TEMPLATE, TOPICS } from "../utils/constants.ts";
 
 interface ProblemFormProps {
   initialProblem: Problem | null;
@@ -32,6 +36,7 @@ const ProblemForm = ({
   const [number, setNumber] = useState("");
   const [title, setTitle] = useState("");
   const [difficulty, setDifficulty] = useState("medium");
+  const [topic, setTopic] = useState("hashmap");
   const [lastAttempted, setLastAttempted] = useState(TODAY);
   const [trick, setTrick] = useState("");
   const [solution, setSolution] = useState<string | undefined>(TEMPLATE);
@@ -44,6 +49,7 @@ const ProblemForm = ({
       setTitle(initialProblem.title);
       setNumber(initialProblem.number.toString());
       setDifficulty(initialProblem.difficulty);
+      setTopic(initialProblem.topic);
       if (initialProblem.lastAttempted) {
         setLastAttempted(initialProblem.lastAttempted.split("T")[0]);
       }
@@ -60,6 +66,7 @@ const ProblemForm = ({
       number: parseInt(number, 10),
       title,
       difficulty,
+      topic,
       lastAttempted,
       trick,
       solution: solution || "",
@@ -85,7 +92,7 @@ const ProblemForm = ({
       onSubmit={(event) => handleSubmit(event)}
       id="problem-form"
     >
-      {/* Row 1: Problem Details */}
+      {/* Row 1: Problem Number & Name */}
       <Stack direction="row" spacing={2}>
         <TextField
           type="number"
@@ -101,10 +108,14 @@ const ProblemForm = ({
           label="Title"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          sx={{ width: 0.45 }}
+          sx={{ width: 0.85 }}
           required
         />
-        <FormControl sx={{ width: 0.15 }}>
+      </Stack>
+
+      {/* Row 2: Difficulty, Topic & Last Attempted */}
+      <Stack direction="row" spacing={2}>
+        <FormControl sx={{ width: 0.33 }}>
           <InputLabel required>Difficulty</InputLabel>
           <Select
             label="Difficulty"
@@ -118,17 +129,31 @@ const ProblemForm = ({
             <MenuItem value="hard">Hard</MenuItem>
           </Select>
         </FormControl>
+        <FormControl sx={{ width: 0.33 }}>
+          <InputLabel required>Topic</InputLabel>
+          <Select
+            label="Topic"
+            value={topic}
+            onChange={(event) => setTopic(event.target.value)}
+            renderValue={(value) => renderTopicChip(value)}
+            required
+          >
+            {TOPICS.map((topic) => (
+              <MenuItem value={topic}>{pretty(topic)} </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           type="date"
           label="Last Attempted"
           value={lastAttempted}
           onChange={(event) => setLastAttempted(event.target.value)}
-          sx={{ width: 0.2 }}
+          sx={{ width: 0.33 }}
           required
         />
       </Stack>
 
-      {/* Row 2: Trick */}
+      {/* Row 3: Trick */}
       <TextField
         type="text"
         label="Trick"
@@ -136,27 +161,26 @@ const ProblemForm = ({
         onChange={(event) => setTrick(event.target.value)}
       />
 
-      {/* Row 3: Solution Markdown */}
+      {/* Row 4: Solution Markdown */}
       <Box data-color-mode="light">
         <MDEditor
           value={solution}
           onChange={setSolution}
-          height={500}
+          height={470}
           visibleDragbar={false}
           style={{ marginLeft: 1, marginRight: 1 }}
         />
       </Box>
 
-      {/* Row 4: Comments */}
+      {/* Row 5: Comments */}
       <TextField
         label="Comments"
         value={comments}
         onChange={(event) => setComments(event.target.value)}
         multiline
-        rows={2}
       />
 
-      {/* Row 5: Error Message */}
+      {/* Row 6: Error Message */}
       {error && <Alert severity="error">{error}</Alert>}
     </Stack>
   );
