@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Stack, TextField, Typography } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 
 import Problem from "../types/Problem";
+import ProblemSearchBar from "../components/ProblemSearchBar.tsx";
+import ProblemListFilter from "../components/ProblemListFilter.tsx";
 import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
 import ProblemDelete from "../components/ProblemDelete.tsx";
@@ -10,23 +12,19 @@ import { fetchProblems } from "../services/problem.ts";
 const Home = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [listFilter, setListFilter] = useState("all");
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
   const [problemToDelete, setProblemToDelete] = useState<Problem | null>(null);
 
-  const fetchData = async () => {
-    try {
-      const data = await fetchProblems();
-      setProblems(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
-  }, []);
+    // Refresh when the list filter changes or when a modal is closed
+    // Don't refresh when a modal is opened
+    if (!showFormModal && !showDeleteModal) {
+      fetchProblems(listFilter).then(setProblems, console.error);
+    }
+  }, [listFilter, showFormModal, showDeleteModal]);
 
   const handleEditRequest = (problem: Problem) => {
     setProblemToEdit(problem);
@@ -42,7 +40,6 @@ const Home = () => {
     setShowFormModal(false);
     setTimeout(() => {
       setProblemToEdit(null);
-      fetchData();
     }, 100); // Add some delay before re-fetching
   };
 
@@ -50,7 +47,6 @@ const Home = () => {
     setShowDeleteModal(false);
     setTimeout(() => {
       setProblemToDelete(null);
-      fetchData();
     }, 100); // Add some delay before re-fetching
   };
 
@@ -65,13 +61,8 @@ const Home = () => {
       <Stack spacing={2}>
         <Typography variant="h2">LeetLog</Typography>
         <Stack direction="row" spacing={3} alignItems="center">
-          <TextField
-            label="Search"
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-            size="small"
-            sx={{ width: 0.3 }}
-          />
+          <ProblemSearchBar value={searchQuery} setter={setSearchQuery} />
+          <ProblemListFilter value={listFilter} setter={setListFilter} />
           <Button variant="contained" onClick={() => setShowFormModal(true)}>
             Add Problem
           </Button>
@@ -95,4 +86,5 @@ const Home = () => {
     </Container>
   );
 };
+
 export default Home;
