@@ -117,7 +117,7 @@ describe("Happy Case", () => {
     testCreateProblem(problem, `Add problem #${problem.number}`, true);
   });
   testGetAllProblems(validProblems.length);
-  testGetAllProblems(5, "neetcode150");
+  testGetAllProblems(5, "neetcode150"); // Problem #6 is not part of NeetCode 150
   testGetProblem(1, true);
 
   const updatedProblem = JSON.parse(JSON.stringify(validProblems[0])); // Deep copy
