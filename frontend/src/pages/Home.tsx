@@ -4,6 +4,7 @@ import { Button, Container, Stack, Typography } from "@mui/material";
 import Problem from "../types/Problem";
 import ProblemSearchBar from "../components/ProblemSearchBar.tsx";
 import ProblemListFilter from "../components/ProblemListFilter.tsx";
+import ProblemTopicFilter from "../components/ProblemTopicFilter.tsx";
 import ProblemTable from "../components/ProblemTable.tsx";
 import ProblemModal from "../components/ProblemModal.tsx";
 import ProblemDelete from "../components/ProblemDelete.tsx";
@@ -13,6 +14,7 @@ const Home = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [listFilter, setListFilter] = useState("all");
+  const [topicFilter, setTopicFilter] = useState("all");
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [problemToEdit, setProblemToEdit] = useState<Problem | null>(null);
@@ -22,9 +24,9 @@ const Home = () => {
     // Refresh when the list filter changes or when a modal is closed
     // Don't refresh when a modal is opened
     if (!showFormModal && !showDeleteModal) {
-      fetchProblems(listFilter).then(setProblems, console.error);
+      fetchProblems(listFilter, topicFilter).then(setProblems, console.error);
     }
-  }, [listFilter, showFormModal, showDeleteModal]);
+  }, [listFilter, topicFilter, showFormModal, showDeleteModal]);
 
   const handleEditRequest = (problem: Problem) => {
     setProblemToEdit(problem);
@@ -60,9 +62,10 @@ const Home = () => {
     <Container>
       <Stack spacing={2}>
         <Typography variant="h2">LeetLog</Typography>
-        <Stack direction="row" spacing={3} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
           <ProblemSearchBar value={searchQuery} setter={setSearchQuery} />
           <ProblemListFilter value={listFilter} setter={setListFilter} />
+          <ProblemTopicFilter value={topicFilter} setter={setTopicFilter} />
           <Button variant="contained" onClick={() => setShowFormModal(true)}>
             Add Problem
           </Button>
