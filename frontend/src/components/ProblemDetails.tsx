@@ -26,6 +26,10 @@ const ProblemDetails = () => {
     try {
       if (number) {
         const data = await fetchProblem(number);
+        // Add trick to markdown if it exists
+        if (data.trick) {
+          data.solution = `#### Trick\n\n${data.trick}\n\n${data.solution}`;
+        }
         setProblem(data);
         document.title = `${data.number}. ${data.title}`;
       }
