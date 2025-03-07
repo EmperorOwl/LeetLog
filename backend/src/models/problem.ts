@@ -25,7 +25,7 @@ const problemSchema: Schema<IProblem> = new Schema<IProblem>(
       enum: DIFFICULTIES,
       required: true,
     },
-    topic: { type: String, enum: TOPICS },
+    topic: { type: String, enum: TOPICS, required: true },
     lastAttempted: { type: Date },
     trick: { type: String },
     solution: { type: String },
