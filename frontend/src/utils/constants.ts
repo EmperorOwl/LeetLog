@@ -1,8 +1,8 @@
-export const TEMPLATE = `#### Clarifying Questions
+export const TEMPLATE = `### Clarifying Questions
 - 
 
 
-#### 
+### 
 1. 
 - \`O(n)\` time to iterate over
 - \`O(n)\` space to store
@@ -12,7 +12,7 @@ export const TEMPLATE = `#### Clarifying Questions
 \`\`\`
 
 
-#### 
+### 
 1. 
 - \`O(n)\` time to iterate over
 - \`O(n)\` space to store
