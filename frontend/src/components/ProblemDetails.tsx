@@ -26,16 +26,24 @@ const ProblemDetails = () => {
     try {
       if (number) {
         const data = await fetchProblem(number);
-        // Add trick to markdown if it exists
-        if (data.trick) {
-          data.solution = `#### Trick\n\n${data.trick}\n\n${data.solution}`;
-        }
         setProblem(data);
         document.title = `${data.number}. ${data.title}`;
       }
     } catch (error) {
       setError((error as Error).message);
     }
+  };
+
+  const getSolution = () => {
+    if (problem) {
+      let solution = problem.solution;
+      if (problem.trick) {
+        // Add trick to solution if it exists
+        solution = `### Trick\n\n${problem.trick}\n\n${solution}`;
+      }
+      return solution;
+    }
+    return "";
   };
 
   useEffect(() => {
@@ -73,7 +81,7 @@ const ProblemDetails = () => {
           </Box>
           <Box>{renderDifficultyChip(problem.difficulty)}</Box>
           <Box data-color-mode="light">
-            <MDEditor.Markdown source={problem.solution} />
+            <MDEditor.Markdown source={getSolution()} />
           </Box>
           <ProblemModal
             problemToEdit={problem}
