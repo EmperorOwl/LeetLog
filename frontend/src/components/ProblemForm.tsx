@@ -75,7 +75,7 @@ const ProblemForm = ({
 
     try {
       if (initialProblem) {
-        await updateProblem(problem, auth.token);
+        await updateProblem(initialProblem.number, problem, auth.token);
       } else {
         await createProblem(problem, auth.token);
       }

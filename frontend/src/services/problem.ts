@@ -49,8 +49,8 @@ const createProblem = async (problem: Problem, token: string) => {
   });
 };
 
-const updateProblem = async (problem: Problem, token: string) => {
-  return request(`${API_URL}/${problem.number}`, {
+const updateProblem = async (number: number, problem: Problem, token: string) => {
+  return request(`${API_URL}/${number}`, {
     method: "PUT",
     body: JSON.stringify(problem),
     headers: {
