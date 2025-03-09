@@ -22,7 +22,7 @@ export const NEETCODE_150 = [
 export const DIFFICULTIES = ["easy", "medium", "hard"] as const;
 
 export const TOPICS = [
-  "hashmap",
+  "array & hashmap",
   "two pointers",
   "sliding window",
   "stack",
@@ -37,6 +37,6 @@ export const TOPICS = [
   "2 dp",
   "greedy",
   "interval",
-  "math",
-  "bit",
+  "math & geometry",
+  "bit manipulation",
 ] as const;
