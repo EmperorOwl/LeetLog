@@ -17,6 +17,7 @@ import {
   renderDifficultyChip,
   renderTimeAgo,
   renderTopicChip,
+  getProblemSlug,
 } from "../utils/helper.tsx";
 
 const SOLUTION_URL = "/leetlog/problems";
@@ -65,7 +66,7 @@ const ProblemTable = ({
                   <OpenInNewIcon />
                 </IconButton>
                 <IconButton
-                  href={`${LEETCODE_URL}/${problem.number}`}
+                  href={`${LEETCODE_URL}/${getProblemSlug(problem.title)}`}
                   target="_blank"
                 >
                   <ExploreIcon />

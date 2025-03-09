@@ -42,4 +42,17 @@ const renderTimeAgo = (date: string) => {
   return res;
 };
 
-export { pretty, renderDifficultyChip, renderTopicChip, renderTimeAgo };
+const getProblemSlug = (title: string) => {
+  let slug = title.toLowerCase();
+  slug = slug.replace(/ -/g, ""); // replaceAll(' -', '')
+  slug = slug.replace(/ /g, "-"); // replaceAll(' ', '-')
+  return slug;
+};
+
+export {
+  pretty,
+  renderDifficultyChip,
+  renderTopicChip,
+  renderTimeAgo,
+  getProblemSlug,
+};
