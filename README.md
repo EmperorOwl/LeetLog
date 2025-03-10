@@ -110,7 +110,7 @@ Feel free to view the [demo](https://app.raylin.dev/leetlog) and see if it's som
    docker compose up backend-prod frontend-preview --build --menu=false
    docker compose up backend-test --build --menu=false
    ```
-   (The real prod requires an SSL certificate and is continuously deployed to an external VM using a 
+   (The real prod requires an SSL certificate and is continuously deployed to an external VM using this 
    [GitHub Actions Workflow](https://github.com/EmperorOwl/LeetLog/blob/master/.github/workflows/cd.yaml))
 
 4. The app should be running on http://localhost:3000/leetlog and the backend on http://localhost:8080
