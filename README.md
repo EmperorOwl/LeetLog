@@ -222,7 +222,7 @@ Discord: `@emperorowl`
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[product-screenshot]: frontend/public/demo.gif
+[product-screenshot]: frontend/public/demo2.gif
 
 [TypeScript]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
 
