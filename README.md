@@ -59,8 +59,8 @@
 [![Product Name Screen Shot][product-screenshot]](https://app.raylin.dev/leetlog)
 
 LeetLog is a web application designed to help users track their progress on LeetCode problems
-and share their solutions with others. Please note that to use this project to track you must host it yourself.
-Feel free to view the demo and see if it's something you'd like to use.
+and share their solutions with others. Please note that to track your own problems you must host it yourself.
+Feel free to view the [demo](https://app.raylin.dev/leetlog) and see if it's something you'd like to use.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -94,9 +94,14 @@ Feel free to view the demo and see if it's something you'd like to use.
    ```sh
    git clone https://github.com/EmperorOwl/LeetLog.git
    ```
-2. Add .env variable in the backend folder (only for development)
+   
+2. For development, you also want to add a .env variable in the backend folder to link to the database
    ```text
    MONGO_URI=
+   ```
+   And install the dependencies in both the backend and the frontend
+   ```sh
+   npm i
    ```
 
 3. Run the relevant docker compose command
@@ -105,7 +110,10 @@ Feel free to view the demo and see if it's something you'd like to use.
    docker compose up backend-prod frontend-preview --build --menu=false
    docker compose up backend-test --build --menu=false
    ```
-   (The real prod requires an SSL certificate and is run off the GitHub Actions Workflow to deploy to an external VM)
+   (The real prod requires an SSL certificate and is continuously deployed to an external VM using a 
+   [GitHub Actions Workflow](https://github.com/EmperorOwl/LeetLog/blob/master/.github/workflows/cd.yaml))
+
+4. The app should be running on http://localhost:3000/leetlog and the backend on http://localhost:8080
 
 Optional Commands
 
@@ -127,7 +135,10 @@ Optional Commands
 
 Notes
 
-- Don't choose a password with special characters for the admin user as bcrypt doesn't handle special characters well
+- The username and password are both admin when in localhost 
+  (you can change this in [backend/Dockerfile](https://github.com/EmperorOwl/LeetLog/blob/master/backend/Dockerfile))
+- For prod, the password is specified as a GitHub secret; don't choose a password with special characters 
+  as bcrypt doesn't handle them well
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -138,6 +149,7 @@ Notes
 ## Roadmap
 
 - [x] List/create/edit/delete problems
+- [x] Add authentication; only the admin user has write access
 - [x] Search for a problem by name or number
 - [x] Filter for problems by list or topic
 - [x] Add tips/notes page
